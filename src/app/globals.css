@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  /* Background Utama (Dark Mode Hangat Bawaan) */
+  --background: #181614;         /* Warm Charcoal / Deep Espresso */
+  --surface: #221f1b;            /* Card Background */
+  --surface-hover: #2c2823;      /* Card Hover / Active State */
+  --border: #38332c;             /* Muted Warm Border */
+
+  /* Tipografi */
+  --foreground: #f5f4f0;         /* Off-white soft text */
+  --foreground-muted: #a39e93;   /* Secondary / Timestamp text */
+
+  /* Brand Accent (Bisa di-override oleh Tenant Branding) */
+  --primary: #d97706;            /* Warm Amber / Brass */
+  --primary-foreground: #ffffff; /* Text on primary */
+
+  /* Status Kerja Barber & Antrean */
+  --status-ready: #10b981;       /* Emerald Green (Siap) */
+  --status-break: #f59e0b;       /* Amber (Istirahat / Toilet) */
+  --status-busy: #f43f5e;        /* Terracotta Rose (Sedang Potong) */
+  --status-offline: #71717a;     /* Muted Zinc (Libur) */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-status-ready: var(--status-ready);
+  --color-status-break: var(--status-break);
+  --color-status-busy: var(--status-busy);
+  --color-status-offline: var(--status-offline);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
