@@ -26,11 +26,26 @@ async function main() {
   console.log("🧹 Previous data cleared.");
 
   // Password hashes
+  const superadminPasswordHash = await bcrypt.hash("superadmin123", 10);
   const ownerPasswordHash = await bcrypt.hash("password123", 10);
   const cashierPasswordHash = await bcrypt.hash("kasir123", 10);
   const barberPasswordHash = await bcrypt.hash("barber123", 10);
 
-  // 2. Create Example Tenant
+  // 2. Create Global Platform Superadmin
+  const superAdmin = await prisma.user.create({
+    data: {
+      name: "Super Admin Cukurin",
+      phone: "08000000000",
+      email: "admin@cukurin.app",
+      passwordHash: superadminPasswordHash,
+      role: UserRole.SUPERADMIN,
+      isActive: true,
+    },
+  });
+
+  console.log(`👑 Superadmin created: ${superAdmin.name} (${superAdmin.email})`);
+
+  // 3. Create Example Tenant
   const now = new Date();
   const trialEnds = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
   const subEnds = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -54,7 +69,7 @@ async function main() {
 
   console.log(`✅ Tenant created: ${tenant.brandName} (${tenant.slug})`);
 
-  // 3. Create Example Store
+  // 4. Create Example Store
   const store = await prisma.store.create({
     data: {
       tenantId: tenant.id,
@@ -67,7 +82,7 @@ async function main() {
 
   console.log(`✅ Store created: ${store.name}`);
 
-  // 4. Create Users (Owner & Cashier)
+  // 5. Create Users (Owner & Cashier)
   const ownerUser = await prisma.user.create({
     data: {
       tenantId: tenant.id,
@@ -93,7 +108,7 @@ async function main() {
 
   console.log(`✅ Users created: ${ownerUser.name}, ${cashierUser.name}`);
 
-  // 5. Create 5 Barbers with Profiles
+  // 6. Create 5 Barbers with Profiles
   const barberData = [
     { name: "Rian Barber", phone: "08333333301", status: BarberWorkStatus.READY },
     { name: "Dedi Fade", phone: "08333333302", status: BarberWorkStatus.READY },
@@ -135,7 +150,7 @@ async function main() {
 
   console.log(`✅ 5 Barbers created with active profiles.`);
 
-  // 6. Create Services (Paket Cukur)
+  // 7. Create Services (Paket Cukur)
   const services = await Promise.all([
     prisma.service.create({
       data: {
@@ -186,7 +201,7 @@ async function main() {
 
   console.log(`✅ ${services.length} Services created.`);
 
-  // 7. Create Retail Products
+  // 8. Create Retail Products
   const products = await Promise.all([
     prisma.product.create({
       data: {
@@ -242,7 +257,7 @@ async function main() {
 
   console.log(`✅ ${products.length} Products created.`);
 
-  // 8. Create Customers (CRM)
+  // 9. Create Customers (CRM)
   const customers = await Promise.all([
     prisma.customer.create({
       data: {
@@ -266,7 +281,7 @@ async function main() {
 
   console.log(`✅ ${customers.length} Customers created.`);
 
-  // 9. Create Store Assets (Tools)
+  // 10. Create Store Assets (Tools)
   await Promise.all([
     prisma.storeAsset.create({
       data: {
@@ -307,7 +322,7 @@ async function main() {
 
   console.log(`✅ Store Assets created.`);
 
-  // 10. Open Today's Daily Register (Buku Kas Pagi)
+  // 11. Open Today's Daily Register (Buku Kas Pagi)
   const dailyRegister = await prisma.dailyRegister.create({
     data: {
       storeId: store.id,
