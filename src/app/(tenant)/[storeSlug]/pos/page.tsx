@@ -1,6 +1,8 @@
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import { requireAuth } from "@/shared/auth";
-import { Receipt, LogOut, LayoutDashboard, ShoppingCart, Scissors, Users } from "lucide-react";
+import { rawPrisma } from "@/shared/db";
+import { PosCashierView } from "@/features/pos";
+import { BarberWorkStatus, ServiceStatus, PaymentStatus } from "@prisma/client";
 
 interface PageProps {
   params: Promise<{ storeSlug: string }>;
@@ -8,75 +10,218 @@ interface PageProps {
 
 export default async function TenantPOSPage({ params }: PageProps) {
   const { storeSlug } = await params;
-  const session = await requireAuth(["OWNER", "MANAGER", "CASHIER"]);
+  const session = await requireAuth(["OWNER", "MANAGER", "CASHIER", "SUPERADMIN"]);
+
+  // 1. Fetch Tenant & Store Data
+  const tenant = await rawPrisma.tenant.findUnique({
+    where: { slug: storeSlug },
+    include: {
+      stores: {
+        take: 1,
+        include: {
+          services: {
+            where: { isActive: true },
+            orderBy: { price: "asc" },
+          },
+          products: {
+            where: { isActive: true },
+            orderBy: { name: "asc" },
+          },
+          dailyRegisters: {
+            where: { status: "OPEN" },
+            orderBy: { openedAt: "desc" },
+            take: 1,
+            include: {
+              payments: true,
+              pettyCashExpenses: true,
+            },
+          },
+          barberProfiles: {
+            include: {
+              user: true,
+              assignedTickets: {
+                where: { serviceStatus: ServiceStatus.IN_SERVICE },
+                include: {
+                  customer: true,
+                  items: true,
+                },
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!tenant || tenant.stores.length === 0) {
+    notFound();
+  }
+
+  const store = tenant.stores[0];
+
+  // 2. Fetch Tickets for the Store
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const activeTickets = await rawPrisma.ticket.findMany({
+    where: {
+      storeId: store.id,
+      createdAt: { gte: today },
+      serviceStatus: { in: [ServiceStatus.WAITING, ServiceStatus.IN_SERVICE] },
+    },
+    include: {
+      customer: true,
+      items: true,
+      assignedBarber: { include: { user: true } },
+      requestedBarber: { include: { user: true } },
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const unpaidTicketsData = await rawPrisma.ticket.findMany({
+    where: {
+      storeId: store.id,
+      paymentStatus: PaymentStatus.UNPAID,
+      createdAt: { gte: today },
+    },
+    include: {
+      customer: true,
+      items: true,
+      assignedBarber: { include: { user: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  });
+
+  // 3. Format Barbers and Chairs
+  const barbersData = store.barberProfiles.map((bp) => {
+    const currentTicket = bp.assignedTickets[0];
+    return {
+      id: bp.id,
+      userId: bp.userId,
+      name: bp.user.name,
+      phone: bp.user.phone,
+      workStatus: bp.workStatus,
+      currentTicket: currentTicket
+        ? {
+            id: currentTicket.id,
+            ticketNumber: currentTicket.ticketNumber,
+            customerName: currentTicket.customer?.name || "Pelanggan",
+            serviceName: currentTicket.items[0]?.itemName || "Potong Rambut",
+            startedAt: currentTicket.createdAt,
+          }
+        : null,
+    };
+  });
+
+  const chairsData = barbersData.map((b, idx) => ({
+    chairNumber: idx + 1,
+    barberId: b.id,
+    barberName: b.name,
+    workStatus: b.workStatus,
+    ticket: b.currentTicket
+      ? {
+          id: b.currentTicket.id,
+          ticketNumber: b.currentTicket.ticketNumber,
+          customerName: b.currentTicket.customerName,
+          serviceName: b.currentTicket.serviceName || "Potong Rambut",
+          subtotal: 50000,
+          paymentStatus: "UNPAID" as const,
+          startedAt: b.currentTicket.startedAt,
+        }
+      : null,
+  }));
+
+  // 4. Format Queue
+  const waitingTickets = activeTickets.filter(
+    (t) => t.serviceStatus === ServiceStatus.WAITING
+  );
+
+  const queueData = waitingTickets.map((t) => {
+    const minutesAgo = Math.max(
+      1,
+      Math.floor((Date.now() - new Date(t.createdAt).getTime()) / 60000)
+    );
+    return {
+      id: t.id,
+      ticketNumber: t.ticketNumber,
+      customerName: t.customer?.name || "Pelanggan",
+      customerPhone: t.customer?.phone,
+      serviceNames: t.items.map((it) => it.itemName),
+      totalAmount: Number(t.totalAmount),
+      paymentStatus: t.paymentStatus as "UNPAID" | "PAID",
+      requestedBarberName: t.requestedBarber?.user.name || null,
+      waitingMinutes: minutesAgo,
+      createdAt: t.createdAt,
+    };
+  });
+
+  // 5. Daily Register Cash Calculation
+  const activeRegister = store.dailyRegisters[0];
+  let calculatedCash = 0;
+  if (activeRegister) {
+    const opening = Number(activeRegister.openingCash);
+    const paymentsTotal = activeRegister.payments
+      .filter((p) => p.paymentMethod === "CASH")
+      .reduce((sum, p) => sum + Number(p.amount), 0);
+    const pettyTotal = activeRegister.pettyCashExpenses.reduce(
+      (sum, p) => sum + Number(p.amount),
+      0
+    );
+    calculatedCash = opening + paymentsTotal - pettyTotal;
+  }
+
+  // 6. Master Services & Products
+  const servicesData = store.services.map((s) => ({
+    id: s.id,
+    name: s.name,
+    price: Number(s.price),
+    durationMinutes: s.durationMinutes,
+  }));
+
+  const productsData = store.products.map((p) => ({
+    id: p.id,
+    name: p.name,
+    price: Number(p.sellingPrice),
+    stockQty: p.stockQuantity,
+  }));
+
+  const unpaidFormatted = unpaidTicketsData.map((t) => ({
+    id: t.id,
+    ticketNumber: t.ticketNumber,
+    customerName: t.customer?.name || "Pelanggan",
+    barberName: t.assignedBarber?.user.name,
+    subtotal: Number(t.subtotal),
+    items: t.items.map((it) => ({
+      name: it.itemName,
+      quantity: it.quantity,
+      price: Number(it.price),
+    })),
+  }));
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 bg-[var(--surface)] border border-[var(--border)] rounded-2xl shadow-xl">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <Receipt className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-bold text-[var(--foreground)]">
-                  POS & Kasir Barbershop
-                </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  {session.role}
-                </span>
-              </div>
-              <p className="text-xs text-[var(--foreground-muted)]">
-                Cabang: <span className="text-emerald-400 font-mono">/{storeSlug}</span> • Kasir: {session.name}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            {(session.role === "OWNER" || session.role === "MANAGER") && (
-              <Link
-                href={`/${storeSlug}/dashboard`}
-                className="px-3.5 py-2.5 rounded-xl bg-[var(--background)] hover:bg-[var(--surface-hover)] border border-[var(--border)] text-xs text-[var(--foreground)] font-medium flex items-center gap-1.5 transition-all"
-              >
-                <LayoutDashboard className="w-3.5 h-3.5 text-amber-500" />
-                <span>Dashboard</span>
-              </Link>
-            )}
-            <Link
-              href="/logout"
-              prefetch={false}
-              className="px-4 py-2.5 rounded-xl bg-red-950/40 hover:bg-red-900/50 border border-red-800/50 text-red-300 text-xs font-medium flex items-center gap-2 transition-all cursor-pointer"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Keluar</span>
-            </Link>
-          </div>
-        </header>
-
-        {/* Placeholder Content */}
-        <div className="p-8 bg-[var(--surface)] border border-[var(--border)] rounded-2xl text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-            <ShoppingCart className="w-8 h-8" />
-          </div>
-          <h2 className="text-lg font-bold text-[var(--foreground)]">
-            Modul Kasir & POS Cukurin
-          </h2>
-          <p className="text-sm text-[var(--foreground-muted)] max-w-md mx-auto leading-relaxed">
-            Halaman ini siap menerima modul transaksi cepat kasir, antrean tiket aktif, kalkulator bayar (Cash, QRIS, Transfer), dan pencatatan kas kecil harian.
-          </p>
-          <div className="pt-4 flex justify-center gap-3">
-            <Link
-              href={`/${storeSlug}/queue`}
-              className="px-4 py-2.5 bg-[var(--background)] hover:bg-[var(--surface-hover)] border border-[var(--border)] rounded-xl text-xs font-medium text-[var(--foreground)] flex items-center gap-2"
-            >
-              <Users className="w-4 h-4 text-purple-400" />
-              <span>Lihat Antrean Publik</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PosCashierView
+      storeSlug={storeSlug}
+      storeName={store.name}
+      brandName={tenant.brandName || tenant.name}
+      user={{
+        name: session.name,
+        role: session.role,
+        email: session.email,
+        phone: session.phone,
+      }}
+      drawer={{
+        status: activeRegister ? "OPEN" : "CLOSED",
+        cash: calculatedCash,
+        openedAt: activeRegister?.openedAt.toISOString(),
+      }}
+      barbers={barbersData}
+      chairs={chairsData}
+      queue={queueData}
+      services={servicesData}
+      products={productsData}
+      unpaidTickets={unpaidFormatted}
+    />
   );
 }

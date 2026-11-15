@@ -1,53 +1,106 @@
-import Link from "next/link";
-import { Scissors, ArrowLeft } from "lucide-react";
+import { notFound } from "next/navigation";
+import { rawPrisma } from "@/shared/db";
+import { PublicQueueDisplay } from "@/features/queue";
+import { BarberWorkStatus, ServiceStatus } from "@prisma/client";
 
 interface PageProps {
   params: Promise<{ storeSlug: string }>;
 }
 
-export default async function TenantQueuePage({ params }: PageProps) {
+export default async function TenantPublicQueuePage({ params }: PageProps) {
   const { storeSlug } = await params;
 
+  // 1. Fetch Tenant & Store Data (Publicly accessible)
+  const tenant = await rawPrisma.tenant.findUnique({
+    where: { slug: storeSlug },
+    include: {
+      stores: {
+        take: 1,
+        include: {
+          barberProfiles: {
+            include: {
+              user: true,
+              assignedTickets: {
+                where: { serviceStatus: ServiceStatus.IN_SERVICE },
+                include: {
+                  customer: true,
+                  items: true,
+                },
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!tenant || tenant.stores.length === 0) {
+    notFound();
+  }
+
+  const store = tenant.stores[0];
+
+  // 2. Fetch Waiting Tickets for today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const waitingTickets = await rawPrisma.ticket.findMany({
+    where: {
+      storeId: store.id,
+      serviceStatus: ServiceStatus.WAITING,
+      createdAt: { gte: today },
+    },
+    include: {
+      customer: true,
+      items: true,
+      requestedBarber: { include: { user: true } },
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  // 3. Format Barber Stations (Chairs 1..N)
+  const stationsData = store.barberProfiles.map((bp, idx) => {
+    const currentTicket = bp.assignedTickets[0];
+    let status: "READY" | "BUSY" | "BREAK" | "OFFLINE" = "OFFLINE";
+
+    if (bp.workStatus === BarberWorkStatus.READY) status = "READY";
+    else if (bp.workStatus === BarberWorkStatus.BUSY) status = "BUSY";
+    else if (bp.workStatus === BarberWorkStatus.BREAK) status = "BREAK";
+
+    return {
+      chairNumber: idx + 1,
+      barberName: bp.user.name,
+      status,
+      ticketNumber: currentTicket?.ticketNumber,
+      customerName: currentTicket?.customer?.name || (currentTicket ? "Pelanggan" : undefined),
+      serviceName: currentTicket?.items[0]?.itemName || (currentTicket ? "Potong Rambut" : undefined),
+      durationMinutes: 30,
+    };
+  });
+
+  // 4. Format Queue Items (Next in line)
+  const queueData = waitingTickets.map((t) => {
+    const waitingMinutes = Math.max(
+      1,
+      Math.floor((Date.now() - new Date(t.createdAt).getTime()) / 60000)
+    );
+
+    return {
+      ticketNumber: t.ticketNumber,
+      customerName: t.customer?.name || "Pelanggan",
+      serviceName: t.items.map((i) => i.itemName).join(", ") || "Potong Rambut",
+      requestedBarber: t.requestedBarber?.user.name || null,
+      waitingMinutes,
+    };
+  });
+
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8 flex flex-col justify-between">
-      <header className="flex items-center justify-between p-4 bg-[var(--surface)] border border-[var(--border)] rounded-2xl">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
-            <Scissors className="w-5 h-5 rotate-[-45deg]" />
-          </div>
-          <div>
-            <h1 className="text-base font-bold text-[var(--foreground)]">
-              Layar Antrean Publik ({storeSlug})
-            </h1>
-            <p className="text-xs text-[var(--foreground-muted)]">
-              Display TV Ruang Tunggu Barbershop
-            </p>
-          </div>
-        </div>
-        <Link
-          href={`/${storeSlug}/dashboard`}
-          className="px-3.5 py-2 bg-[var(--background)] hover:bg-[var(--surface-hover)] border border-[var(--border)] rounded-xl text-xs text-[var(--foreground-muted)] flex items-center gap-1.5"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Kembali</span>
-        </Link>
-      </header>
-
-      <div className="py-20 text-center space-y-3">
-        <div className="inline-flex px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-          ● Display Antrean Aktif
-        </div>
-        <h2 className="text-2xl font-bold text-[var(--foreground)]">
-          Belum ada antrean berjalan saat ini
-        </h2>
-        <p className="text-xs text-[var(--foreground-muted)] max-w-sm mx-auto">
-          Silakan lakukan check-in nomor antrean di kasir untuk mulai potong rambut.
-        </p>
-      </div>
-
-      <footer className="text-center text-[11px] text-[var(--foreground-muted)] py-4">
-        Powered by Cukurin.app — Smart Queue Engine
-      </footer>
-    </div>
+    <PublicQueueDisplay
+      storeName={store.name}
+      storeSlug={storeSlug}
+      stations={stationsData}
+      queue={queueData}
+    />
   );
 }
