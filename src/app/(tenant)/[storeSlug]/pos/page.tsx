@@ -3,6 +3,12 @@ import { requireAuth } from "@/shared/auth";
 import { rawPrisma } from "@/shared/db";
 import { PosCashierView } from "@/features/pos";
 import { BarberWorkStatus, ServiceStatus, PaymentStatus } from "@prisma/client";
+import {
+  getStoreVaultInfo,
+  calculateRegisterSummary,
+  getCashMovements,
+} from "@/features/cash-register/services/cashRegisterService";
+import { getStoreBarberPayoutCandidates } from "@/features/payroll/services/payrollService";
 
 interface PageProps {
   params: Promise<{ storeSlug: string }>;
@@ -157,20 +163,27 @@ export default async function TenantPOSPage({ params }: PageProps) {
     };
   });
 
-  // 5. Daily Register Cash Calculation
+  // 5. Daily Register Cash Calculation & Fase 4 Cash Module
   const activeRegister = store.dailyRegisters[0];
-  let calculatedCash = 0;
-  if (activeRegister) {
-    const opening = Number(activeRegister.openingCash);
-    const paymentsTotal = activeRegister.payments
-      .filter((p) => p.paymentMethod === "CASH")
-      .reduce((sum, p) => sum + Number(p.amount), 0);
-    const pettyTotal = activeRegister.pettyCashExpenses.reduce(
-      (sum, p) => sum + Number(p.amount),
-      0
-    );
-    calculatedCash = opening + paymentsTotal - pettyTotal;
-  }
+  const activeSummary = activeRegister
+    ? await calculateRegisterSummary(activeRegister.id)
+    : null;
+  const movements = activeRegister
+    ? await getCashMovements(activeRegister.id)
+    : [];
+
+  const vaultInfo =
+    (await getStoreVaultInfo(store.id)) || {
+      storeId: store.id,
+      storeName: store.name,
+      vaultBalance: Number(store.vaultBalance || 0),
+    };
+
+  const payoutCandidates = await getStoreBarberPayoutCandidates(store.id);
+
+  const calculatedCash = activeSummary
+    ? activeSummary.expectedDrawerCash
+    : 0;
 
   // 6. Master Services & Products
   const servicesData = store.services.map((s) => ({
@@ -222,6 +235,11 @@ export default async function TenantPOSPage({ params }: PageProps) {
       services={servicesData}
       products={productsData}
       unpaidTickets={unpaidFormatted}
+      storeVault={vaultInfo}
+      activeSummary={activeSummary}
+      cashMovements={movements}
+      payoutCandidates={payoutCandidates}
+      cashierId={session.userId}
     />
   );
 }

@@ -77,6 +77,7 @@ async function main() {
       address: "Jl. Tebet Raya No. 42, Tebet, Jakarta Selatan",
       phone: "081234567890",
       queueStrategy: QueueStrategy.LOYALTY_PRIORITY,
+      vaultBalance: 1000000.00,
     },
   });
 

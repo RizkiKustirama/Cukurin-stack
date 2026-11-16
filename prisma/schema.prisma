@@ -169,6 +169,7 @@ model Store {
   address       String?       @db.Text
   phone         String?       @db.VarChar(20)
   queueStrategy QueueStrategy @default(LOYALTY_PRIORITY) @map("queue_strategy")
+  vaultBalance  Decimal       @default(1000000.00) @map("vault_balance") @db.Decimal(12, 2)
   createdAt     DateTime      @default(now()) @map("created_at")
 
   tenant            Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)

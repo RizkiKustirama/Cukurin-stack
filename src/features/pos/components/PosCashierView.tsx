@@ -20,6 +20,14 @@ import {
 import { BarberWorkStatus } from "@prisma/client";
 import { Wallet, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
 import { formatRupiah } from "@/shared/lib/formatters";
+import { CashRegisterView } from "@/features/cash-register/components/CashRegisterView";
+import { BarberPayoutModal } from "@/features/payroll/components/BarberPayoutModal";
+import type {
+  DailyRegisterSummary,
+  StoreVaultInfo,
+  CashMovementItem,
+} from "@/features/cash-register/types";
+import type { StoreBarberPayoutCandidate } from "@/features/payroll/types";
 
 export interface PosCashierViewProps {
   storeSlug: string;
@@ -42,6 +50,11 @@ export interface PosCashierViewProps {
   services: MasterService[];
   products: MasterProduct[];
   unpaidTickets: TicketToPay[];
+  storeVault?: StoreVaultInfo;
+  activeSummary?: DailyRegisterSummary | null;
+  cashMovements?: CashMovementItem[];
+  payoutCandidates?: StoreBarberPayoutCandidate[];
+  cashierId?: string;
 }
 
 export function PosCashierView({
@@ -56,6 +69,11 @@ export function PosCashierView({
   services,
   products,
   unpaidTickets,
+  storeVault,
+  activeSummary,
+  cashMovements = [],
+  payoutCandidates = [],
+  cashierId = "",
 }: PosCashierViewProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -64,6 +82,7 @@ export function PosCashierView({
   // State
   const [isTicketSheetOpen, setIsTicketSheetOpen] = useState(false);
   const [paymentTicket, setPaymentTicket] = useState<TicketToPay | null>(null);
+  const [isPayoutModalOpen, setIsPayoutModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -201,116 +220,93 @@ export function PosCashierView({
         />
 
         {/* 3. Responsive Layout (Mobile vs Desktop) */}
+        {currentTab === "cash" ? (
+          /* Tampilan Modul Buku Kas Harian & Brankas Toko (Fase 4) */
+          <CashRegisterView
+            storeVault={storeVault || { storeId: "", storeName, vaultBalance: 0 }}
+            activeSummary={activeSummary || null}
+            movements={cashMovements}
+            cashierId={cashierId}
+            onOpenPayoutModal={() => setIsPayoutModalOpen(true)}
+          />
+        ) : (
+          <>
+            {/* Tampilan Desktop (md+): 2 Kolom terbelah (Split View) */}
+            <div className="hidden md:grid md:grid-cols-12 gap-6 items-start">
+              {/* Kolom Kiri (58% / 7 cols): Meja Aktif & Antrean Menunggu */}
+              <div className="md:col-span-7 space-y-6">
+                <ActiveChairsGrid
+                  chairs={chairs}
+                  onCompleteService={handleCompleteService}
+                  onCallNext={(barberId: string) => handleCallNext(barberId)}
+                  onCheckoutTicket={handleOpenPaymentForTicket}
+                />
 
-        {/* Tampilan Desktop (md+): 2 Kolom terbelah (Split View) */}
-        <div className="hidden md:grid md:grid-cols-12 gap-6 items-start">
-          {/* Kolom Kiri (58% / 7 cols): Meja Aktif & Antrean Menunggu */}
-          <div className="md:col-span-7 space-y-6">
-            <ActiveChairsGrid
-              chairs={chairs}
-              onCompleteService={handleCompleteService}
-              onCallNext={(barberId: string) => handleCallNext(barberId)}
-              onCheckoutTicket={handleOpenPaymentForTicket}
-            />
-
-            <QueueListView
-              queueItems={queue}
-              onAssignBarber={(ticketId: string) => {
-                // Find first ready barber
-                const ready = barbers.find((b) => b.workStatus === BarberWorkStatus.READY);
-                if (ready) {
-                  handleCallNext(ready.id, ticketId);
-                } else {
-                  showToast("Semua barber sedang sibuk/istirahat.");
-                }
-              }}
-              onPayTicket={handleOpenPaymentForTicket}
-            />
-          </div>
-
-          {/* Kolom Kanan (42% / 5 cols): Panel PosTransactionForm Sticky */}
-          <div className="md:col-span-5 sticky top-4">
-            <PosTransactionForm
-              services={services}
-              products={products}
-              barbers={masterBarbers}
-              onSubmit={handleCreateTicket}
-            />
-          </div>
-        </div>
-
-        {/* Tampilan Mobile (< md): Tab-Aware / Mobile View */}
-        <div className="md:hidden space-y-5">
-          {currentTab === "pos" ? (
-            /* Tab Kasir POS di Mobile */
-            <div className="space-y-4">
-              <PosTransactionForm
-                services={services}
-                products={products}
-                barbers={masterBarbers}
-                onSubmit={handleCreateTicket}
-              />
-            </div>
-          ) : currentTab === "cash" ? (
-            /* Tab Buku Kas di Mobile */
-            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 space-y-4">
-              <div className="flex items-center gap-3 border-b border-[var(--border)] pb-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                  <Wallet className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-[var(--foreground)]">
-                    Buku Kas & Laci Uang
-                  </h3>
-                  <p className="text-xs text-[var(--foreground-muted)]">
-                    Status kas harian cabang
-                  </p>
-                </div>
+                <QueueListView
+                  queueItems={queue}
+                  onAssignBarber={(ticketId: string) => {
+                    // Find first ready barber
+                    const ready = barbers.find((b) => b.workStatus === BarberWorkStatus.READY);
+                    if (ready) {
+                      handleCallNext(ready.id, ticketId);
+                    } else {
+                      showToast("Semua barber sedang sibuk/istirahat.");
+                    }
+                  }}
+                  onPayTicket={handleOpenPaymentForTicket}
+                />
               </div>
 
-              <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
-                <div className="flex justify-between text-xs text-[var(--foreground-muted)]">
-                  <span>Status Laci:</span>
-                  <span className="font-bold text-emerald-400">{drawer.status}</span>
-                </div>
-                <div className="flex justify-between text-sm font-bold text-[var(--foreground)]">
-                  <span>Saldo Kas Laci:</span>
-                  <span className="font-mono text-amber-400 text-base">
-                    {formatRupiah(drawer.cash)}
-                  </span>
-                </div>
-                {drawer.openedAt && (
-                  <p className="text-[11px] text-[var(--foreground-muted)] pt-1 border-t border-[var(--border)]/50">
-                    Dibuka pada: {new Date(drawer.openedAt).toLocaleTimeString("id-ID")} WIB
-                  </p>
-                )}
+              {/* Kolom Kanan (42% / 5 cols): Panel PosTransactionForm Sticky */}
+              <div className="md:col-span-5 sticky top-4">
+                <PosTransactionForm
+                  services={services}
+                  products={products}
+                  barbers={masterBarbers}
+                  onSubmit={handleCreateTicket}
+                />
               </div>
             </div>
-          ) : (
-            /* Tab Antrean di Mobile (Default) */
-            <div className="space-y-5">
-              <ActiveChairsGrid
-                chairs={chairs}
-                onCompleteService={handleCompleteService}
-                onCallNext={(barberId: string) => handleCallNext(barberId)}
-                onCheckoutTicket={handleOpenPaymentForTicket}
-              />
 
-              <QueueListView
-                queueItems={queue}
-                onAssignBarber={(ticketId: string) => {
-                  const ready = barbers.find((b) => b.workStatus === BarberWorkStatus.READY);
-                  if (ready) {
-                    handleCallNext(ready.id, ticketId);
-                  } else {
-                    showToast("Semua barber sedang sibuk/istirahat.");
-                  }
-                }}
-                onPayTicket={handleOpenPaymentForTicket}
-              />
+            {/* Tampilan Mobile (< md): Tab-Aware / Mobile View */}
+            <div className="md:hidden space-y-5">
+              {currentTab === "pos" ? (
+                /* Tab Kasir POS di Mobile */
+                <div className="space-y-4">
+                  <PosTransactionForm
+                    services={services}
+                    products={products}
+                    barbers={masterBarbers}
+                    onSubmit={handleCreateTicket}
+                  />
+                </div>
+              ) : (
+                /* Tab Antrean di Mobile (Default) */
+                <div className="space-y-5">
+                  <ActiveChairsGrid
+                    chairs={chairs}
+                    onCompleteService={handleCompleteService}
+                    onCallNext={(barberId: string) => handleCallNext(barberId)}
+                    onCheckoutTicket={handleOpenPaymentForTicket}
+                  />
+
+                  <QueueListView
+                    queueItems={queue}
+                    onAssignBarber={(ticketId: string) => {
+                      const ready = barbers.find((b) => b.workStatus === BarberWorkStatus.READY);
+                      if (ready) {
+                        handleCallNext(ready.id, ticketId);
+                      } else {
+                        showToast("Semua barber sedang sibuk/istirahat.");
+                      }
+                    }}
+                    onPayTicket={handleOpenPaymentForTicket}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
 
       {/* Slide-over Form Pembuatan Tiket Mobile (FAB trigger) */}
@@ -330,6 +326,21 @@ export function PosCashierView({
         onClose={() => setPaymentTicket(null)}
         onConfirmPayment={handleSettlePayment}
       />
+
+      {/* Modal Pencairan Komisi Barber (Fase 4) */}
+      {storeVault && (
+        <BarberPayoutModal
+          isOpen={isPayoutModalOpen}
+          onClose={() => setIsPayoutModalOpen(false)}
+          candidates={payoutCandidates}
+          activeRegisterId={activeSummary?.register.id}
+          expectedDrawerCash={activeSummary?.expectedDrawerCash || 0}
+          onSuccess={() => {
+            showToast("Komisi barber berhasil dicairkan!");
+            router.refresh();
+          }}
+        />
+      )}
     </TenantResponsiveShell>
   );
 }
