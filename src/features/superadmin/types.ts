@@ -22,6 +22,12 @@ export interface TenantManagementItem {
   daysRemaining: number;
   storesCount: number;
   usersCount: number;
+  barbersCount?: number;
+  maxBarbers?: number;
+  maxStores?: number;
+  ownerName?: string;
+  ownerPhone?: string;
+  ownerEmail?: string | null;
   createdAt: string;
 }
 

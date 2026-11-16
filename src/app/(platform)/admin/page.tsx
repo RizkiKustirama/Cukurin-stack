@@ -10,14 +10,10 @@ export default async function AdminPlatformPage() {
   const dashboardData = await getSuperadminDashboardData();
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-6 lg:p-8 antialiased selection:bg-purple-600 selection:text-white">
-      <div className="max-w-7xl mx-auto">
-        <SuperadminDashboardView
-          initialData={dashboardData}
-          userName={session.name}
-          userRole={session.role}
-        />
-      </div>
-    </div>
+    <SuperadminDashboardView
+      initialData={dashboardData}
+      userName={session.name}
+      userRole={session.role}
+    />
   );
 }

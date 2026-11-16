@@ -75,6 +75,20 @@ export async function getAllTenantsList(
           users: true,
         },
       },
+      users: {
+        where: { role: "OWNER" },
+        select: { name: true, phone: true, email: true },
+        take: 1,
+      },
+      stores: {
+        select: {
+          _count: {
+            select: {
+              barberProfiles: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -92,6 +106,9 @@ export async function getAllTenantsList(
       daysRemaining = diffMs > 0 ? Math.ceil(diffMs / (1000 * 60 * 60 * 24)) : 0;
     }
 
+    const owner = t.users[0];
+    const totalBarbers = t.stores.reduce((acc, s) => acc + s._count.barberProfiles, 0);
+
     return {
       id: t.id,
       name: t.name,
@@ -104,6 +121,12 @@ export async function getAllTenantsList(
       daysRemaining,
       storesCount: t._count.stores,
       usersCount: t._count.users,
+      barbersCount: totalBarbers,
+      maxBarbers: t.maxBarbers,
+      maxStores: t.maxStores,
+      ownerName: owner?.name || "Owner Barbershop",
+      ownerPhone: owner?.phone || "-",
+      ownerEmail: owner?.email || null,
       createdAt: t.createdAt.toISOString(),
     };
   });
