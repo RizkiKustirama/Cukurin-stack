@@ -18,7 +18,8 @@ export default async function TenantDashboardPage({
   const { storeSlug } = await params;
   const { period: periodParam } = await searchParams;
 
-  const session = await requireAuth(["OWNER", "MANAGER", "SUPERADMIN"]);
+  // Dashboard rekap bisnis hanya diperuntukkan untuk OWNER (dan SUPERADMIN)
+  const session = await requireAuth(["OWNER", "SUPERADMIN"]);
 
   const tenant = await rawPrisma.tenant.findUnique({
     where: { slug: storeSlug },

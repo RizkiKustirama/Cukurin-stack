@@ -18,9 +18,11 @@ export interface QueueItemData {
   id: string;
   ticketNumber: string;
   customerName: string;
+  customerPhone?: string | null;
   serviceNames: string[];
   waitingMinutes: number;
   totalAmount: number;
+  paymentStatus?: "UNPAID" | "PAID";
   requestedBarberName?: string | null;
   assignedBarberName?: string | null;
 }

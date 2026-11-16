@@ -72,7 +72,7 @@ export function OwnerDashboardView({
               </span>
             </div>
             <p className="text-xs text-[#706E68] mt-0.5">
-              Dashboard Eksekutif Finansial & Operasional • Halo, {userName}
+              Rekap Eksekutif Finansial & Laba Bersih Toko • Khusus Owner ({userName})
             </p>
           </div>
         </div>

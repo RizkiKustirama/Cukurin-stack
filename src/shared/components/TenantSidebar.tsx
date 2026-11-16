@@ -45,9 +45,8 @@ export function TenantSidebar({
   const searchParams = useSearchParams();
   const currentTab = controlledTab || searchParams?.get("tab") || "pos";
 
-  const isOwnerOrManager =
+  const isOwner =
     user.role === "OWNER" ||
-    user.role === "MANAGER" ||
     user.role === "SUPERADMIN";
 
   return (
@@ -202,14 +201,14 @@ export function TenantSidebar({
             </span>
           </Link>
 
-          {/* Dashboard Owner/Manager */}
-          {isOwnerOrManager && (
+          {/* Rekap Bisnis & Dashboard Khusus Owner */}
+          {isOwner && (
             <Link
               href={`/${storeSlug}/dashboard`}
               className="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-[#706E68] hover:bg-[#F6F5F2] hover:text-[#1A1A1A] transition-all"
             >
               <LayoutDashboard className="w-4 h-4 text-[#D97706]" />
-              <span>Dashboard Toko</span>
+              <span>Rekap Bisnis (Owner)</span>
             </Link>
           )}
         </nav>
