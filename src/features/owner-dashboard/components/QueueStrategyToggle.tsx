@@ -48,14 +48,14 @@ export function QueueStrategyToggle({
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-md space-y-4">
+    <div className="p-6 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
-            <SlidersHorizontal className="w-4 h-4 text-amber-400" />
+          <h3 className="text-sm font-bold text-[#1A1A1A] flex items-center gap-2">
+            <SlidersHorizontal className="w-4 h-4 text-[#D97706]" />
             Pengaturan Budaya & Mesin Antrean Toko
           </h3>
-          <p className="text-xs text-[var(--foreground-muted)]">
+          <p className="text-xs text-[#706E68]">
             Tentukan bagaimana mesin POS otomatis memplot pelanggan dari antrean ke kursi barber saat barber ready.
           </p>
         </div>
@@ -65,14 +65,14 @@ export function QueueStrategyToggle({
         <div
           className={`p-3 rounded-xl text-xs flex items-center gap-2 border ${
             message.type === "success"
-              ? "bg-emerald-950/30 text-emerald-300 border-emerald-500/30"
-              : "bg-rose-950/30 text-rose-300 border-rose-500/30"
+              ? "bg-[#E8F7EE] text-[#1E8E3E] border-[#CEEAD6]"
+              : "bg-[#FDF0F2] text-[#D93025] border-[#FCDAD7]"
           }`}
         >
           {message.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-[#1E8E3E]" />
           ) : (
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+            <AlertCircle className="w-4 h-4 shrink-0 text-[#D93025]" />
           )}
           <span>{message.text}</span>
         </div>
@@ -83,29 +83,29 @@ export function QueueStrategyToggle({
         {/* Option 1: LOYALTY_PRIORITY */}
         <div
           onClick={() => handleSelectStrategy("LOYALTY_PRIORITY")}
-          className={`p-4 rounded-xl border transition-all cursor-pointer relative flex flex-col justify-between ${
+          className={`p-5 rounded-2xl border transition-all cursor-pointer relative flex flex-col justify-between ${
             strategy === "LOYALTY_PRIORITY"
-              ? "bg-amber-500/10 border-amber-500/50 shadow-md shadow-amber-950/20"
-              : "bg-[var(--background)] border-[var(--border)] hover:border-[var(--border-hover)]"
+              ? "bg-[#FFF5EB] border-[#D97706] shadow-xs ring-1 ring-[#D97706]/30"
+              : "bg-[#F6F5F2] border-[#E8E5DE] hover:border-[#D5D1C8]"
           }`}
         >
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+              <span className="text-xs font-bold text-[#D97706] flex items-center gap-1.5">
                 <HeartHandshake className="w-4 h-4" />
                 Mode Loyalitas Pelanggan (Rekomendasi)
               </span>
               {strategy === "LOYALTY_PRIORITY" && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-[#D97706] border border-[#FDE6D2]">
                   Aktif
                 </span>
               )}
             </div>
-            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+            <p className="text-xs text-[#706E68] leading-relaxed">
               Pelanggan yang me-request barber langganan tetap diutamakan kepada barber tersebut saat selesai layanan sebelumnya, menjaga kepuasan dan loyalitas pelanggan setia.
             </p>
           </div>
-          <div className="mt-3 pt-2 text-[11px] text-[var(--foreground-muted)] border-t border-[var(--border)]/60">
+          <div className="mt-3 pt-2 text-[11px] text-[#706E68] border-t border-[#E8E5DE]">
             Sesuai untuk barbershop kelas menengah ke atas yang mengutamakan relasi barber & pelanggan.
           </div>
         </div>
@@ -113,29 +113,29 @@ export function QueueStrategyToggle({
         {/* Option 2: STRICT_FIFO */}
         <div
           onClick={() => handleSelectStrategy("STRICT_FIFO")}
-          className={`p-4 rounded-xl border transition-all cursor-pointer relative flex flex-col justify-between ${
+          className={`p-5 rounded-2xl border transition-all cursor-pointer relative flex flex-col justify-between ${
             strategy === "STRICT_FIFO"
-              ? "bg-blue-500/10 border-blue-500/50 shadow-md shadow-blue-950/20"
-              : "bg-[var(--background)] border-[var(--border)] hover:border-[var(--border-hover)]"
+              ? "bg-[#EEF6FE] border-[#1A73E8] shadow-xs ring-1 ring-[#1A73E8]/30"
+              : "bg-[#F6F5F2] border-[#E8E5DE] hover:border-[#D5D1C8]"
           }`}
         >
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-blue-400 flex items-center gap-1.5">
+              <span className="text-xs font-bold text-[#1A73E8] flex items-center gap-1.5">
                 <ListOrdered className="w-4 h-4" />
                 Mode Antrean Murni (Strict FIFO)
               </span>
               {strategy === "STRICT_FIFO" && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-[#1A73E8] border border-[#D3E3FD]">
                   Aktif
                 </span>
               )}
             </div>
-            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+            <p className="text-xs text-[#706E68] leading-relaxed">
               Siapapun barber yang pertama kali selesai/ready wajib memotong tiket antrean terlama (first-in first-out) tanpa memandang request barber khusus.
             </p>
           </div>
-          <div className="mt-3 pt-2 text-[11px] text-[var(--foreground-muted)] border-t border-[var(--border)]/60">
+          <div className="mt-3 pt-2 text-[11px] text-[#706E68] border-t border-[#E8E5DE]">
             Sesuai untuk barbershop dengan antrean walk-in sangat ramai atau saat jam puncak padat.
           </div>
         </div>

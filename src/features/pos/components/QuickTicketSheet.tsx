@@ -56,27 +56,27 @@ export function QuickTicketSheet({
     <div className="fixed inset-0 z-50 flex items-end justify-center md:hidden animate-in fade-in duration-200">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Drawer */}
-      <div className="relative w-full max-h-[92vh] bg-[#181614] border-t border-[#38332c] rounded-t-3xl shadow-2xl flex flex-col z-10">
+      <div className="relative w-full max-h-[92vh] bg-white border-t border-[#E8E5DE] rounded-t-[28px] shadow-2xl flex flex-col z-10">
         <div className="pt-3 pb-1 cursor-grab" onClick={onClose}>
-          <div className="w-12 h-1.5 bg-stone-600/70 hover:bg-stone-500 rounded-full mx-auto" />
+          <div className="w-12 h-1.5 bg-[#D5D1C8] hover:bg-[#A8A59E] rounded-full mx-auto" />
         </div>
 
-        <div className="px-5 py-3 border-b border-[#2c2823] flex items-center justify-between shrink-0">
+        <div className="px-5 py-3 border-b border-[#E8E5DE] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
+            <div className="w-8 h-8 rounded-xl bg-[#FFF5EB] border border-[#FDE6D2] flex items-center justify-center text-[#D97706]">
               <Scissors className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-stone-100">
+              <h3 className="text-base font-bold text-[#1A1A1A]">
                 Tiket Transaksi Baru
               </h3>
-              <p className="text-[11px] text-stone-400">
+              <p className="text-[11px] text-[#706E68]">
                 Pilih paket cukur atau beli produk retail
               </p>
             </div>
@@ -85,7 +85,7 @@ export function QuickTicketSheet({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#221f1b] hover:bg-stone-800 text-stone-400 hover:text-stone-100 flex items-center justify-center transition"
+            className="w-8 h-8 rounded-full bg-[#F6F5F2] hover:bg-[#EFECE6] text-[#706E68] hover:text-[#1A1A1A] flex items-center justify-center transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>

@@ -108,23 +108,23 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4">
-      <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#18181B] text-[#F4F4F5] border border-amber-900/40 rounded-t-2xl sm:rounded-2xl shadow-2xl p-5 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-200">
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm p-0 sm:p-4">
+      <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white text-[#1A1A1A] border border-[#E8E5DE] rounded-t-3xl sm:rounded-3xl shadow-xl p-5 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="flex items-center justify-between border-b border-[#E8E5DE] pb-4 mb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-full bg-[#FEF3EB] text-[#D97706] flex items-center justify-center font-bold">
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-zinc-100">Tutup Kasir Malam (Blind Count)</h3>
-              <p className="text-xs text-zinc-400">
+              <h3 className="text-base font-bold text-[#1A1A1A]">Tutup Kasir Malam (Blind Count)</h3>
+              <p className="text-xs text-[#706E68]">
                 Hitung uang fisik & setor kembali ke Brankas Toko
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-400 hover:text-zinc-200 text-sm font-semibold p-1"
+            className="text-[#706E68] hover:text-[#1A1A1A] text-sm font-semibold p-1"
           >
             ✕
           </button>
@@ -132,19 +132,19 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
 
         {/* Ringkasan Laci Sistem */}
         <div className="grid grid-cols-2 gap-2 mb-4">
-          <div className="bg-zinc-900/90 border border-zinc-800 rounded-xl p-3">
-            <span className="text-[10px] uppercase font-bold text-zinc-400 block">
+          <div className="bg-[#F6F5F2] border border-[#E8E5DE] rounded-2xl p-3">
+            <span className="text-[10px] uppercase font-bold text-[#706E68] block">
               Modal Awal Pagi
             </span>
-            <span className="text-sm font-bold text-zinc-200">
+            <span className="text-sm font-bold font-mono text-[#1A1A1A]">
               {formatRupiah(summary.openingCash)}
             </span>
           </div>
-          <div className="bg-zinc-900/90 border border-zinc-800 rounded-xl p-3">
-            <span className="text-[10px] uppercase font-bold text-zinc-400 block">
+          <div className="bg-[#F6F5F2] border border-[#E8E5DE] rounded-2xl p-3">
+            <span className="text-[10px] uppercase font-bold text-[#706E68] block">
               Ekspektasi Uang Fisik Laci
             </span>
-            <span className="text-sm font-bold text-amber-400">
+            <span className="text-sm font-bold font-mono text-[#D97706]">
               {formatRupiah(summary.expectedDrawerCash)}
             </span>
           </div>
@@ -152,14 +152,14 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Switch Mode: Manual vs Denomination */}
-          <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 rounded-xl p-1.5">
+          <div className="flex items-center justify-between bg-[#F6F5F2] border border-[#E8E5DE] rounded-full p-1">
             <button
               type="button"
               onClick={() => setUseBreakdown(false)}
-              className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition ${
+              className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition ${
                 !useBreakdown
-                  ? "bg-zinc-800 text-amber-400 shadow-xs"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[#111111] text-white shadow-xs"
+                  : "text-[#706E68] hover:text-[#1A1A1A]"
               }`}
             >
               Input Nominal Langsung
@@ -167,10 +167,10 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
             <button
               type="button"
               onClick={() => setUseBreakdown(true)}
-              className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition ${
+              className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition ${
                 useBreakdown
-                  ? "bg-zinc-800 text-amber-400 shadow-xs"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[#111111] text-white shadow-xs"
+                  : "text-[#706E68] hover:text-[#1A1A1A]"
               }`}
             >
               Kalkulator Pecahan (Lembar)
@@ -179,21 +179,21 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
 
           {useBreakdown ? (
             /* Denomination Breakdown */
-            <div className="space-y-2 bg-zinc-900/60 border border-zinc-800 rounded-xl p-3 max-h-56 overflow-y-auto">
+            <div className="space-y-2 bg-[#F6F5F2] border border-[#E8E5DE] rounded-2xl p-3.5 max-h-56 overflow-y-auto">
               {DENOMINATIONS.map((d) => {
                 const count = counts[d.val] || 0;
                 const sub = count * d.val;
                 return (
                   <div
                     key={d.val}
-                    className="flex items-center justify-between text-xs py-1 border-b border-zinc-800/60 last:border-0"
+                    className="flex items-center justify-between text-xs py-1 border-b border-[#E8E5DE] last:border-0"
                   >
-                    <span className="font-medium text-zinc-300 w-24">{d.label}</span>
+                    <span className="font-medium text-[#1A1A1A] w-24">{d.label}</span>
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => handleCountChange(d.val, -1)}
-                        className="w-7 h-7 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold flex items-center justify-center"
+                        className="w-7 h-7 rounded-full bg-white hover:bg-[#EFECE6] border border-[#E8E5DE] text-[#1A1A1A] font-bold flex items-center justify-center transition"
                       >
                         -
                       </button>
@@ -205,24 +205,24 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
                           const val = Math.max(0, parseInt(e.target.value, 10) || 0);
                           setCounts((prev) => ({ ...prev, [d.val]: val }));
                         }}
-                        className="w-12 text-center bg-zinc-950 border border-zinc-800 rounded-lg py-1 font-bold text-zinc-100"
+                        className="w-12 text-center bg-white border border-[#E8E5DE] rounded-lg py-1 font-bold text-[#1A1A1A]"
                       />
                       <button
                         type="button"
                         onClick={() => handleCountChange(d.val, 1)}
-                        className="w-7 h-7 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold flex items-center justify-center"
+                        className="w-7 h-7 rounded-full bg-white hover:bg-[#EFECE6] border border-[#E8E5DE] text-[#1A1A1A] font-bold flex items-center justify-center transition"
                       >
                         +
                       </button>
                     </div>
-                    <span className="w-24 text-right font-semibold text-zinc-300">
+                    <span className="w-24 text-right font-semibold font-mono text-[#1A1A1A]">
                       {formatRupiah(sub)}
                     </span>
                   </div>
                 );
               })}
               <div className="flex items-center justify-between text-xs pt-1">
-                <span className="font-medium text-zinc-400">Total Koin (Rp):</span>
+                <span className="font-medium text-[#706E68]">Total Koin (Rp):</span>
                 <input
                   type="number"
                   min="0"
@@ -231,18 +231,18 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
                     setCoinAmount(Math.max(0, parseInt(e.target.value, 10) || 0))
                   }
                   placeholder="0"
-                  className="w-28 text-right bg-zinc-950 border border-zinc-800 rounded-lg px-2 py-1 font-bold text-zinc-100"
+                  className="w-28 text-right bg-white border border-[#E8E5DE] rounded-lg px-2 py-1 font-bold font-mono text-[#1A1A1A]"
                 />
               </div>
             </div>
           ) : (
             /* Direct Total Input */
             <div>
-              <label className="text-xs font-semibold text-zinc-300 block mb-1">
+              <label className="text-xs font-semibold text-[#1A1A1A] block mb-1">
                 Total Uang Fisik Hasil Hitung (Rp):
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-semibold text-sm">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#706E68] font-semibold text-sm">
                   Rp
                 </span>
                 <input
@@ -250,7 +250,7 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
                   value={manualInput ? Number(manualInput).toLocaleString("id-ID") : ""}
                   onChange={(e) => setManualInput(e.target.value.replace(/\D/g, ""))}
                   placeholder="0"
-                  className="w-full bg-zinc-900/90 border border-zinc-800 rounded-xl pl-10 pr-3 py-2.5 text-base font-bold text-zinc-100 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl pl-10 pr-3 py-2.5 text-base font-bold font-mono text-[#1A1A1A] focus:outline-none focus:border-[#111111] transition"
                 />
               </div>
             </div>
@@ -258,23 +258,23 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
 
           {/* Realtime Discrepancy & Return To Vault Info */}
           <div
-            className={`p-3.5 rounded-xl border flex flex-col gap-1.5 transition ${
+            className={`p-3.5 rounded-2xl border flex flex-col gap-1.5 transition ${
               discrepancy === 0
-                ? "bg-emerald-950/40 border-emerald-800/60 text-emerald-300"
+                ? "bg-[#E8F7EE] border-[#A7F3D0]/60 text-[#1E8E3E]"
                 : discrepancy > 0
-                ? "bg-blue-950/40 border-blue-800/60 text-blue-300"
-                : "bg-rose-950/40 border-rose-800/60 text-rose-300"
+                ? "bg-[#EEF6FE] border-[#BAE6FD]/60 text-[#1A73E8]"
+                : "bg-[#FDF0F2] border-[#FECDD3]/60 text-[#D93025]"
             }`}
           >
             <div className="flex items-center justify-between text-xs">
               <span className="font-semibold">Fisik Nyata Dihitung:</span>
-              <span className="font-bold text-sm text-zinc-100">
+              <span className="font-bold text-sm font-mono text-[#1A1A1A]">
                 {formatRupiah(totalCounted)}
               </span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="font-semibold">Selisih Audit (Discrepancy):</span>
-              <span className="font-bold">
+              <span className="font-bold font-mono">
                 {discrepancy === 0
                   ? "✓ Tepat (Rp 0)"
                   : discrepancy > 0
@@ -285,8 +285,8 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
           </div>
 
           {/* Setor Balik ke Brankas Banner */}
-          <div className="p-3 bg-amber-950/20 border border-amber-800/40 rounded-xl flex items-center gap-2 text-xs text-amber-300">
-            <ShieldCheck className="w-5 h-5 shrink-0 text-amber-400" />
+          <div className="p-3 bg-[#FEF3EB] border border-[#FCD34D]/60 rounded-2xl flex items-center gap-2 text-xs text-[#D97706]">
+            <ShieldCheck className="w-5 h-5 shrink-0 text-[#D97706]" />
             <span>
               Seluruh uang fisik nyata <strong>{formatRupiah(totalCounted)}</strong> akan disetorkan kembali ke <strong>Saldo Total Brankas Toko</strong> setelah kasir ditutup.
             </span>
@@ -294,7 +294,7 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
 
           {/* Catatan Penutupan */}
           <div>
-            <label className="text-xs font-semibold text-zinc-300 block mb-1">
+            <label className="text-xs font-semibold text-[#1A1A1A] block mb-1">
               Catatan / Alasan jika ada selisih:
             </label>
             <input
@@ -302,12 +302,12 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Contoh: Tip sukarela pelanggan tidak masuk nota, dsb"
-              className="w-full bg-zinc-900/90 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl px-3 py-2 text-xs text-[#1A1A1A] placeholder:text-[#A8A59E] focus:outline-none focus:border-[#111111] transition"
             />
           </div>
 
           {errorMessage && (
-            <div className="p-3 rounded-lg bg-rose-950/50 border border-rose-800/60 text-rose-300 text-xs flex items-start gap-2">
+            <div className="p-3 rounded-xl bg-[#FDF0F2] border border-[#FECDD3] text-[#D93025] text-xs flex items-start gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
@@ -318,14 +318,14 @@ export const CloseRegisterModal: React.FC<CloseRegisterModalProps> = ({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="flex-1 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition"
+              className="flex-1 py-2.5 rounded-full border border-[#E8E5DE] bg-white hover:bg-[#F6F5F2] text-[#706E68] text-xs font-semibold transition"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-lg shadow-amber-950 transition flex items-center justify-center gap-1.5"
+              className="flex-1 py-2.5 rounded-full bg-[#111111] hover:bg-[#222222] text-white text-xs font-bold shadow-xs transition flex items-center justify-center gap-1.5"
             >
               {isSubmitting ? "Menutup & Menyetor..." : "Tutup Kasir & Setor"}
             </button>

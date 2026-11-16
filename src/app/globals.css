@@ -1,28 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  /* Background Utama (Dark Mode Hangat Bawaan) */
-  --background: #181614;         /* Warm Charcoal / Deep Espresso */
-  --surface: #221f1b;            /* Card Background */
-  --surface-hover: #2c2823;      /* Card Hover / Active State */
-  --border: #38332c;             /* Muted Warm Border */
+  /* Canvas & Base Surfaces (Porcelain Minimalist) */
+  --background: #F6F5F2;           /* Warm Alabaster / Milk Porcelain Canvas */
+  --canvas-porcelain: #F6F5F2;
+  --surface: #FFFFFF;              /* Crisp Elevated Card Background */
+  --surface-card: #FFFFFF;
+  --surface-subtle: #EFECE6;       /* Soft Container Fill */
+  --surface-hover: #F1EDE6;        /* Hover Fill */
+  --border: #E8E5DE;               /* Subtle Clean Border */
+  --border-strong: #D5D1C8;        /* Focused / Strong Border */
 
   /* Tipografi */
-  --foreground: #f5f4f0;         /* Off-white soft text */
-  --foreground-muted: #a39e93;   /* Secondary / Timestamp text */
+  --foreground: #1A1A1A;           /* Primary High-Contrast Text */
+  --foreground-muted: #706E68;     /* Secondary Taupe Gray Text */
+  --foreground-disabled: #A8A59E;  /* Placeholder / Disabled Text */
 
-  /* Brand Accent (Bisa di-override oleh Tenant Branding) */
-  --primary: #d97706;            /* Warm Amber / Brass */
-  --primary-foreground: #ffffff; /* Text on primary */
+  /* Brand Accent & Primary Controls */
+  --primary: #111111;              /* Solid Matte Black Pill */
+  --primary-foreground: #FFFFFF;   /* Crisp White Text */
+  --brand: #D97706;                /* Warm Amber / Brass Accent */
+  --brand-subtle: #FFF5EB;         /* Navigation Active Pill Background */
+  --nav-active-bg: #FFF5EB;
+  --nav-active-fg: #D97706;
 
-  /* Status Kerja Barber & Antrean */
-  --status-ready: #10b981;       /* Emerald Green (Siap) */
-  --status-break: #f59e0b;       /* Amber (Istirahat / Toilet) */
-  --status-busy: #f43f5e;        /* Terracotta Rose (Sedang Potong) */
-  --status-offline: #71717a;     /* Muted Zinc (Libur) */
+  /* Status Badges & Indicators (Tonal Pastels) */
+  --badge-mint-bg: #E8F7EE;
+  --badge-mint-fg: #1E8E3E;
+  --badge-peach-bg: #FEF3EB;
+  --badge-peach-fg: #D97706;
+  --badge-rose-bg: #FDF0F2;
+  --badge-rose-fg: #D93025;
+  --badge-sky-bg: #EEF6FE;
+  --badge-sky-fg: #1A73E8;
+
+  /* Backward Compatibility Enums */
+  --status-ready: #1E8E3E;
+  --status-break: #D97706;
+  --status-busy: #D93025;
+  --status-offline: #706E68;
 }
 
 @theme inline {
+  --font-sans: var(--font-plus-jakarta-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
@@ -35,12 +55,36 @@
   --color-status-break: var(--status-break);
   --color-status-busy: var(--status-busy);
   --color-status-offline: var(--status-offline);
+
+  --color-canvas-porcelain: var(--canvas-porcelain);
+  --color-surface-card: var(--surface-card);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-brand: var(--brand);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-badge-mint-bg: var(--badge-mint-bg);
+  --color-badge-mint-fg: var(--badge-mint-fg);
+  --color-badge-peach-bg: var(--badge-peach-bg);
+  --color-badge-peach-fg: var(--badge-peach-fg);
+  --color-badge-rose-bg: var(--badge-rose-bg);
+  --color-badge-rose-fg: var(--badge-rose-fg);
+  --color-badge-sky-bg: var(--badge-sky-bg);
+  --color-badge-sky-fg: var(--badge-sky-fg);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-plus-jakarta-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Custom micro-diffused ambient shadow for cards */
+.shadow-porcelain {
+  box-shadow: 0 1px 3px 0 rgba(28, 25, 23, 0.04), 0 1px 2px -1px rgba(28, 25, 23, 0.02);
+}
+
+.shadow-porcelain-elevated {
+  box-shadow: 0 10px 25px -5px rgba(28, 25, 23, 0.06), 0 8px 10px -6px rgba(28, 25, 23, 0.04);
 }

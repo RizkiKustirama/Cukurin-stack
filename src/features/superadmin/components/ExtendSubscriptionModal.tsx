@@ -57,26 +57,26 @@ export function ExtendSubscriptionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="w-full max-w-lg bg-[var(--surface)] border border-[var(--border)] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="w-full max-w-lg bg-white border border-[#E8E5DE] rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header Modal */}
-        <div className="p-5 border-b border-[var(--border)] flex items-center justify-between">
+        <div className="p-5 border-b border-[#E8E5DE] flex items-center justify-between bg-white">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
+            <div className="w-9 h-9 rounded-xl bg-[#F3E8FF] border border-[#E9D5FF] flex items-center justify-center text-[#9333EA]">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-sm text-[var(--foreground)]">
+              <h3 className="font-bold text-sm text-[#1A1A1A]">
                 Perpanjang Langganan Manual
               </h3>
-              <p className="text-xs text-[var(--foreground-muted)]">
+              <p className="text-xs text-[#706E68]">
                 {tenant.brandName || tenant.name} (/{tenant.slug})
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-hover)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-full bg-[#F6F5F2] text-[#706E68] hover:text-[#1A1A1A] hover:bg-[#EFECE6] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -85,18 +85,18 @@ export function ExtendSubscriptionModal({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto">
           {error && (
-            <div className="p-3 rounded-xl bg-rose-950/30 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="p-3 rounded-xl bg-[#FDF0F2] border border-[#FCDAD7] text-[#D93025] text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-[#D93025]" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Status Sekarang */}
-          <div className="p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs flex items-center justify-between">
-            <span className="text-[var(--foreground-muted)]">Status Saat Ini:</span>
+          <div className="p-3.5 rounded-xl bg-[#F6F5F2] border border-[#E8E5DE] text-xs flex items-center justify-between">
+            <span className="text-[#706E68]">Status Saat Ini:</span>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[var(--foreground)]">{tenant.subscriptionStatus}</span>
-              <span className="text-[11px] text-[var(--foreground-muted)]">
+              <span className="font-bold text-[#1A1A1A]">{tenant.subscriptionStatus}</span>
+              <span className="text-[11px] text-[#706E68]">
                 ({tenant.daysRemaining} hari sisa)
               </span>
             </div>
@@ -104,7 +104,7 @@ export function ExtendSubscriptionModal({
 
           {/* Pilihan Paket */}
           <div>
-            <label className="block text-xs font-semibold text-[var(--foreground)] mb-2">
+            <label className="block text-xs font-semibold text-[#1A1A1A] mb-2">
               Pilih Paket Langganan
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -113,10 +113,10 @@ export function ExtendSubscriptionModal({
                   type="button"
                   key={p}
                   onClick={() => setPlan(p)}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                  className={`py-2 px-3 rounded-full text-xs font-bold border transition-all cursor-pointer ${
                     plan === p
-                      ? "bg-purple-500/20 text-purple-300 border-purple-500/50 shadow-sm"
-                      : "bg-[var(--background)] text-[var(--foreground-muted)] border-[var(--border)] hover:border-[var(--border-hover)]"
+                      ? "bg-[#111111] text-white border-[#111111] shadow-2xs"
+                      : "bg-white text-[#706E68] border-[#E8E5DE] hover:border-[#D5D1C8]"
                   }`}
                 >
                   {p}
@@ -127,7 +127,7 @@ export function ExtendSubscriptionModal({
 
           {/* Pilihan Durasi Tambahan */}
           <div>
-            <label className="block text-xs font-semibold text-[var(--foreground)] mb-2">
+            <label className="block text-xs font-semibold text-[#1A1A1A] mb-2">
               Durasi Perpanjangan Hari
             </label>
             <div className="grid grid-cols-4 gap-2 mb-2">
@@ -136,10 +136,10 @@ export function ExtendSubscriptionModal({
                   type="button"
                   key={days}
                   onClick={() => setAdditionalDays(days)}
-                  className={`py-2 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                  className={`py-2 px-2 rounded-full text-xs font-bold border transition-all cursor-pointer ${
                     additionalDays === days
-                      ? "bg-amber-500 text-black border-amber-500 shadow-sm"
-                      : "bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-[var(--border-hover)]"
+                      ? "bg-[#111111] text-white border-[#111111] shadow-2xs"
+                      : "bg-white text-[#1A1A1A] border-[#E8E5DE] hover:border-[#D5D1C8]"
                   }`}
                 >
                   +{days} Hari
@@ -154,22 +154,22 @@ export function ExtendSubscriptionModal({
                 max="3650"
                 value={additionalDays}
                 onChange={(e) => setAdditionalDays(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-amber-500 font-mono"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-[#E8E5DE] text-xs text-[#1A1A1A] focus:outline-none focus:border-[#111111] font-mono"
                 placeholder="Atau ketik jumlah hari kustom"
               />
-              <span className="absolute right-3 top-2.5 text-xs text-[var(--foreground-muted)] pointer-events-none">
+              <span className="absolute right-3 top-2.5 text-xs text-[#706E68] pointer-events-none">
                 hari
               </span>
             </div>
           </div>
 
           {/* Simulasi Tanggal Berakhir Baru */}
-          <div className="p-3 rounded-xl bg-purple-950/20 border border-purple-500/30 text-xs space-y-1">
-            <div className="text-purple-300 font-semibold flex items-center gap-1.5">
+          <div className="p-3.5 rounded-xl bg-[#F3E8FF]/30 border border-[#E9D5FF] text-xs space-y-1">
+            <div className="text-[#9333EA] font-semibold flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5" />
               Simulasi Masa Aktif Baru:
             </div>
-            <div className="text-[var(--foreground)] font-mono text-[11px]">
+            <div className="text-[#1A1A1A] font-mono text-[11px]">
               Aktif hingga:{" "}
               <strong>
                 {previewEndDate.toLocaleDateString("id-ID", {
@@ -184,7 +184,7 @@ export function ExtendSubscriptionModal({
 
           {/* Catatan Pembayaran / Transfer */}
           <div>
-            <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
+            <label className="block text-xs font-semibold text-[#1A1A1A] mb-1.5">
               Catatan Referensi Transfer / Pembayaran
             </label>
             <textarea
@@ -192,24 +192,24 @@ export function ExtendSubscriptionModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Contoh: Transfer Mandiri An. Budi Santoso #TRX-9981 senilai Rp 150.000"
-              className="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-amber-500 placeholder:text-[var(--foreground-muted)] resize-none"
+              className="w-full px-3 py-2 rounded-xl bg-white border border-[#E8E5DE] text-xs text-[#1A1A1A] focus:outline-none focus:border-[#111111] placeholder:text-[#A8A59E] resize-none"
             />
           </div>
 
           {/* Tombol Aksi */}
-          <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-[var(--border)]">
+          <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-[#E8E5DE]">
             <button
               type="button"
               onClick={onClose}
               disabled={isPending}
-              className="px-4 py-2 rounded-xl bg-[var(--surface-hover)] text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-full border border-[#E8E5DE] text-xs font-semibold text-[#706E68] hover:text-[#1A1A1A] hover:bg-[#F6F5F2] transition-colors cursor-pointer"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-950/50 cursor-pointer disabled:opacity-50 flex items-center gap-2"
+              className="px-5 py-2 rounded-full bg-[#111111] hover:bg-black text-xs font-bold text-white transition-all shadow-sm cursor-pointer disabled:opacity-50 flex items-center gap-2"
             >
               {isPending ? (
                 <>

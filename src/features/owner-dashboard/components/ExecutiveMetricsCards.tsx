@@ -24,23 +24,17 @@ export function ExecutiveMetricsCards({ metrics }: ExecutiveMetricsCardsProps) {
       {/* Top Highlight: Laba Bersih & Brankas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Net Profit Card */}
-        <div
-          className={`p-5 rounded-2xl border transition-all ${
-            isProfitPositive
-              ? "bg-gradient-to-br from-emerald-950/40 via-[var(--surface)] to-emerald-950/20 border-emerald-500/40 shadow-lg shadow-emerald-950/20"
-              : "bg-gradient-to-br from-rose-950/40 via-[var(--surface)] to-rose-950/20 border-rose-500/40 shadow-lg shadow-rose-950/20"
-          }`}
-        >
+        <div className="p-6 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] transition-all">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold tracking-wide uppercase text-[var(--foreground-muted)] flex items-center gap-1.5">
-              <TrendingUp className={`w-4 h-4 ${isProfitPositive ? "text-emerald-400" : "text-rose-400"}`} />
+            <span className="text-xs font-semibold tracking-wide uppercase text-[#706E68] flex items-center gap-1.5">
+              <TrendingUp className={`w-4 h-4 ${isProfitPositive ? "text-[#1E8E3E]" : "text-[#D93025]"}`} />
               Laba Bersih Toko (Net Profit)
             </span>
             <span
               className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${
                 isProfitPositive
-                  ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
-                  : "bg-rose-500/15 text-rose-300 border-rose-500/30"
+                  ? "bg-[#E8F7EE] text-[#1E8E3E] border-[#CEEAD6]"
+                  : "bg-[#FDF0F2] text-[#D93025] border-[#FCDAD7]"
               }`}
             >
               Margin: {metrics.profitMarginPct}%
@@ -48,34 +42,34 @@ export function ExecutiveMetricsCards({ metrics }: ExecutiveMetricsCardsProps) {
           </div>
           <div className="flex items-baseline gap-2">
             <div
-              className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
-                isProfitPositive ? "text-emerald-400" : "text-rose-400"
+              className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-mono ${
+                isProfitPositive ? "text-[#1E8E3E]" : "text-[#D93025]"
               }`}
             >
               {formatCurrency(metrics.netProfit)}
             </div>
           </div>
-          <p className="text-xs text-[var(--foreground-muted)] mt-2">
+          <p className="text-xs text-[#706E68] mt-2">
             Formula: Omzet Kotor ({formatCurrency(metrics.grossRevenue)}) dikurangi total beban (
             {formatCurrency(metrics.totalExpenses)})
           </p>
         </div>
 
         {/* Vault Balance Card */}
-        <div className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-md flex flex-col justify-between">
+        <div className="p-6 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold tracking-wide uppercase text-[var(--foreground-muted)] flex items-center gap-1.5">
-              <Vault className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-semibold tracking-wide uppercase text-[#706E68] flex items-center gap-1.5">
+              <Vault className="w-4 h-4 text-[#D97706]" />
               Saldo Brankas Toko (Vault)
             </span>
-            <span className="text-[11px] font-medium text-amber-400/90 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+            <span className="text-[11px] font-semibold text-[#D97706] bg-[#FEF3EB] px-2.5 py-0.5 rounded-full border border-[#FDE6D2]">
               Kas Utama Toko
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 tracking-tight">
+          <div className="text-2xl sm:text-3xl font-extrabold text-[#1A1A1A] font-mono tracking-tight">
             {formatCurrency(metrics.vaultBalance)}
           </div>
-          <p className="text-xs text-[var(--foreground-muted)] mt-2">
+          <p className="text-xs text-[#706E68] mt-2">
             Sumber modal laci buka kasir pagi & muara setoran tutup kasir malam.
           </p>
         </div>
@@ -84,26 +78,28 @@ export function ExecutiveMetricsCards({ metrics }: ExecutiveMetricsCardsProps) {
       {/* Grid 4 Cards: Omzet & 3 Pos Beban */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* 1. Omzet Kotor */}
-        <div className="p-4 rounded-xl bg-[var(--surface)] border border-[var(--border)] shadow-sm flex flex-col justify-between">
+        <div className="p-4 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] mb-1.5">
+            <div className="flex items-center justify-between text-xs text-[#706E68] mb-1.5 font-medium">
               <span>Omzet Kotor</span>
-              <DollarSign className="w-4 h-4 text-emerald-400" />
+              <div className="w-7 h-7 rounded-lg bg-[#EEF6FE] flex items-center justify-center text-[#1A73E8]">
+                <DollarSign className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-[var(--foreground)]">
+            <div className="text-lg sm:text-xl font-bold font-mono text-[#1A1A1A]">
               {formatCurrency(metrics.grossRevenue)}
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[var(--border)]/60 text-[11px] text-[var(--foreground-muted)] space-y-0.5">
+          <div className="mt-3 pt-2.5 border-t border-[#E8E5DE] text-[11px] text-[#706E68] space-y-0.5">
             <div className="flex justify-between">
               <span>Jasa ({metrics.completedTicketsCount} tiket):</span>
-              <span className="text-[var(--foreground)] font-medium">
+              <span className="text-[#1A1A1A] font-semibold font-mono">
                 {formatCurrency(metrics.serviceRevenue)}
               </span>
             </div>
             <div className="flex justify-between">
               <span>Retail Pomade/Produk:</span>
-              <span className="text-[var(--foreground)] font-medium">
+              <span className="text-[#1A1A1A] font-semibold font-mono">
                 {formatCurrency(metrics.productRevenue)}
               </span>
             </div>
@@ -111,17 +107,19 @@ export function ExecutiveMetricsCards({ metrics }: ExecutiveMetricsCardsProps) {
         </div>
 
         {/* 2. Beban Komisi Barber */}
-        <div className="p-4 rounded-xl bg-[var(--surface)] border border-[var(--border)] shadow-sm flex flex-col justify-between">
+        <div className="p-4 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] mb-1.5">
+            <div className="flex items-center justify-between text-xs text-[#706E68] mb-1.5 font-medium">
               <span>Beban Komisi Barber</span>
-              <Scissors className="w-4 h-4 text-blue-400" />
+              <div className="w-7 h-7 rounded-lg bg-[#E8F7EE] flex items-center justify-center text-[#1E8E3E]">
+                <Scissors className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-blue-400">
+            <div className="text-lg sm:text-xl font-bold font-mono text-[#1A1A1A]">
               {formatCurrency(metrics.commissionExpense)}
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[var(--border)]/60 text-[11px] text-[var(--foreground-muted)]">
+          <div className="mt-3 pt-2.5 border-t border-[#E8E5DE] text-[11px] text-[#706E68]">
             <span>
               {metrics.grossRevenue > 0
                 ? `${((metrics.commissionExpense / metrics.grossRevenue) * 100).toFixed(1)}% dari omzet`
@@ -131,33 +129,37 @@ export function ExecutiveMetricsCards({ metrics }: ExecutiveMetricsCardsProps) {
         </div>
 
         {/* 3. Beban Kas Kecil (Petty Cash) */}
-        <div className="p-4 rounded-xl bg-[var(--surface)] border border-[var(--border)] shadow-sm flex flex-col justify-between">
+        <div className="p-4 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] mb-1.5">
+            <div className="flex items-center justify-between text-xs text-[#706E68] mb-1.5 font-medium">
               <span>Beban Kas Kecil (Laci)</span>
-              <Receipt className="w-4 h-4 text-amber-400" />
+              <div className="w-7 h-7 rounded-lg bg-[#FEF3EB] flex items-center justify-center text-[#D97706]">
+                <Receipt className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-amber-400">
+            <div className="text-lg sm:text-xl font-bold font-mono text-[#1A1A1A]">
               {formatCurrency(metrics.pettyCashExpense)}
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[var(--border)]/60 text-[11px] text-[var(--foreground-muted)]">
+          <div className="mt-3 pt-2.5 border-t border-[#E8E5DE] text-[11px] text-[#706E68]">
             <span>Operasional dadakan kasir</span>
           </div>
         </div>
 
         {/* 4. Beban Backbar Meja */}
-        <div className="p-4 rounded-xl bg-[var(--surface)] border border-[var(--border)] shadow-sm flex flex-col justify-between">
+        <div className="p-4 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] mb-1.5">
+            <div className="flex items-center justify-between text-xs text-[#706E68] mb-1.5 font-medium">
               <span>Beban Meja (Backbar)</span>
-              <Package className="w-4 h-4 text-purple-400" />
+              <div className="w-7 h-7 rounded-lg bg-[#FDF0F2] flex items-center justify-center text-[#D93025]">
+                <Package className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-purple-400">
+            <div className="text-lg sm:text-xl font-bold font-mono text-[#1A1A1A]">
               {formatCurrency(metrics.backbarCost)}
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[var(--border)]/60 text-[11px] text-[var(--foreground-muted)]">
+          <div className="mt-3 pt-2.5 border-t border-[#E8E5DE] text-[11px] text-[#706E68]">
             <span>Modal HPP barang meja cukur</span>
           </div>
         </div>

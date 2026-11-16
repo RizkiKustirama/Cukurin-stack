@@ -31,21 +31,21 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
     switch (status) {
       case "ACTIVE":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E8F7EE] text-[#1E8E3E] border border-[#CEEAD6]">
             <CheckCircle2 className="w-3.5 h-3.5" />
             Active ({daysRemaining}h)
           </span>
         );
       case "TRIAL":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#FEF3EB] text-[#D97706] border border-[#FDE6D2]">
             <Clock className="w-3.5 h-3.5" />
             Trial ({daysRemaining}h)
           </span>
         );
       case "EXPIRED":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#FDF0F2] text-[#D93025] border border-[#FCDAD7]">
             <AlertTriangle className="w-3.5 h-3.5" />
             Expired
           </span>
@@ -53,7 +53,7 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
       case "SUSPENDED":
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-zinc-500/15 text-zinc-400 border border-zinc-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#F6F5F2] text-[#706E68] border border-[#E8E5DE]">
             Suspended
           </span>
         );
@@ -64,20 +64,20 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
     switch (plan) {
       case "ENTERPRISE":
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-purple-500/20 text-purple-300 border border-purple-500/40">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E8FF] text-[#9333EA] border border-[#E9D5FF]">
             ENTERPRISE
           </span>
         );
       case "PRO":
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-blue-500/20 text-blue-300 border border-blue-500/40">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#EEF6FE] text-[#1A73E8] border border-[#D3E3FD]">
             PRO
           </span>
         );
       case "REGULER":
       default:
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-zinc-700/50 text-zinc-300 border border-zinc-600/50">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F6F5F2] text-[#706E68] border border-[#E8E5DE]">
             REGULER
           </span>
         );
@@ -85,15 +85,15 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-md space-y-4">
+    <div className="p-6 rounded-2xl bg-white border border-[#E8E5DE] shadow-[0_1px_3px_rgba(28,25,23,0.02)] space-y-4">
       {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-purple-400" />
+          <h3 className="text-sm font-bold text-[#1A1A1A] flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-[#9333EA]" />
             Daftar Tenant Barbershop & Masa Aktif
           </h3>
-          <p className="text-xs text-[var(--foreground-muted)]">
+          <p className="text-xs text-[#706E68]">
             Total {tenants.length} barbershop terdaftar di platform
           </p>
         </div>
@@ -101,20 +101,20 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
         {/* Search & Filter */}
         <div className="flex items-center gap-2 flex-wrap">
           <div className="relative min-w-[200px]">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[var(--foreground-muted)] pointer-events-none" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#706E68] pointer-events-none" />
             <input
               type="text"
               placeholder="Cari nama atau slug..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-purple-500 placeholder:text-[var(--foreground-muted)]"
+              className="w-full pl-8 pr-3 py-1.5 rounded-full bg-[#F6F5F2] border border-[#E8E5DE] text-xs text-[#1A1A1A] focus:outline-none focus:border-[#111111] placeholder:text-[#A8A59E]"
             />
           </div>
 
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-1.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-purple-500 cursor-pointer"
+            className="px-3 py-1.5 rounded-full bg-[#F6F5F2] border border-[#E8E5DE] text-xs text-[#1A1A1A] focus:outline-none focus:border-[#111111] cursor-pointer"
           >
             <option value="ALL">Semua Status</option>
             <option value="ACTIVE">Active Saja</option>
@@ -128,7 +128,7 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="border-b border-[var(--border)] text-[var(--foreground-muted)] font-semibold">
+            <tr className="border-b border-[#E8E5DE] text-[#706E68] font-semibold">
               <th className="py-2.5 px-3">Barbershop / Brand</th>
               <th className="py-2.5 px-3">Paket</th>
               <th className="py-2.5 px-3">Status Langganan</th>
@@ -137,33 +137,33 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
               <th className="py-2.5 px-3 text-right">Aksi</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--border)]/60">
+          <tbody className="divide-y divide-[#E8E5DE]">
             {filteredTenants.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-8 text-center text-[var(--foreground-muted)]">
+                <td colSpan={6} className="py-8 text-center text-[#706E68]">
                   Tidak ada data tenant yang cocok dengan kriteria pencarian.
                 </td>
               </tr>
             ) : (
               filteredTenants.map((t) => (
-                <tr key={t.id} className="hover:bg-[var(--surface-hover)] transition-colors">
+                <tr key={t.id} className="hover:bg-[#F6F5F2] transition-colors">
                   <td className="py-3 px-3">
-                    <div className="font-bold text-[var(--foreground)]">
+                    <div className="font-bold text-[#1A1A1A]">
                       {t.brandName || t.name}
                     </div>
-                    <div className="text-[11px] text-purple-400 font-mono">/{t.slug}</div>
+                    <div className="text-[11px] text-[#706E68] font-mono">/{t.slug}</div>
                   </td>
                   <td className="py-3 px-3">{getPlanBadge(t.subscriptionPlan)}</td>
                   <td className="py-3 px-3">
                     {getStatusBadge(t.subscriptionStatus, t.daysRemaining)}
                   </td>
                   <td className="py-3 px-3 text-center">
-                    <span className="font-mono text-[11px] text-[var(--foreground)]">
+                    <span className="font-mono text-[11px] text-[#1A1A1A]">
                       {t.storesCount} Cabang • {t.usersCount} User
                     </span>
                   </td>
                   <td className="py-3 px-3">
-                    <div className="text-[11px] font-mono text-[var(--foreground-muted)]">
+                    <div className="text-[11px] font-mono text-[#706E68]">
                       {t.subscriptionStatus === "ACTIVE" && t.subscriptionEndsAt
                         ? new Date(t.subscriptionEndsAt).toLocaleDateString("id-ID", {
                             day: "numeric",
@@ -180,7 +180,7 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
                   <td className="py-3 px-3 text-right">
                     <button
                       onClick={() => setSelectedTenant(t)}
-                      className="px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-semibold text-[11px] transition-all cursor-pointer flex items-center gap-1.5 ml-auto"
+                      className="px-3.5 py-1.5 rounded-full bg-[#111111] hover:bg-black text-white font-semibold text-[11px] transition-all cursor-pointer flex items-center gap-1.5 ml-auto shadow-2xs"
                     >
                       <ShieldCheck className="w-3.5 h-3.5" />
                       <span>Perpanjang</span>
@@ -196,34 +196,34 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
       {/* Mobile View: Cards */}
       <div className="md:hidden space-y-3">
         {filteredTenants.length === 0 ? (
-          <div className="p-6 text-center text-xs text-[var(--foreground-muted)] bg-[var(--background)] rounded-xl border border-[var(--border)]">
+          <div className="p-6 text-center text-xs text-[#706E68] bg-[#F6F5F2] rounded-2xl border border-[#E8E5DE]">
             Tidak ada data tenant yang cocok.
           </div>
         ) : (
           filteredTenants.map((t) => (
             <div
               key={t.id}
-              className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-3"
+              className="p-4 rounded-2xl bg-[#F6F5F2] border border-[#E8E5DE] space-y-3"
             >
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="font-bold text-sm text-[var(--foreground)]">
+                  <div className="font-bold text-sm text-[#1A1A1A]">
                     {t.brandName || t.name}
                   </div>
-                  <div className="text-xs text-purple-400 font-mono">/{t.slug}</div>
+                  <div className="text-xs text-[#706E68] font-mono">/{t.slug}</div>
                 </div>
                 <div>{getPlanBadge(t.subscriptionPlan)}</div>
               </div>
 
-              <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--border)]/60">
+              <div className="flex items-center justify-between text-xs pt-2 border-t border-[#E8E5DE]">
                 <div>{getStatusBadge(t.subscriptionStatus, t.daysRemaining)}</div>
-                <div className="text-[11px] text-[var(--foreground-muted)] font-mono">
+                <div className="text-[11px] text-[#706E68] font-mono">
                   {t.storesCount} Cabang • {t.usersCount} User
                 </div>
               </div>
 
               <div className="pt-2 flex items-center justify-between gap-2">
-                <span className="text-[11px] text-[var(--foreground-muted)] font-mono">
+                <span className="text-[11px] text-[#706E68] font-mono">
                   Exp:{" "}
                   {t.subscriptionStatus === "ACTIVE" && t.subscriptionEndsAt
                     ? new Date(t.subscriptionEndsAt).toLocaleDateString("id-ID", {
@@ -239,7 +239,7 @@ export function TenantManagementTable({ tenants }: TenantManagementTableProps) {
                 </span>
                 <button
                   onClick={() => setSelectedTenant(t)}
-                  className="px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-semibold text-xs transition-all cursor-pointer flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-full bg-[#111111] hover:bg-black text-white font-semibold text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>Perpanjang</span>

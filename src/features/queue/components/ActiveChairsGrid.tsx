@@ -92,17 +92,16 @@ interface NormalizedChair {
   barberId: string;
   barberName: string;
   avatarUrl?: string | null;
-  status: BarberWorkStatus | string;
-  startedAt?: Date | string | null;
+  status: "READY" | "BUSY" | "BREAK" | "OFFLINE";
+  startedAt?: string | Date | null;
   ticket?: {
     id: string;
     ticketNumber: string;
     customerName: string;
     serviceName: string;
-    subtotal?: number;
+    subtotal: number;
     paymentStatus?: string;
-    isRequested?: boolean;
-    rawTicket?: QueueItemTicket;
+    startedAt?: string | Date | null;
   } | null;
 }
 
@@ -121,71 +120,53 @@ export function ActiveChairsGrid({
     barberId: string;
   } | null>(null);
 
-  // Normalize input from either stations or chairs props
+  // Normalize data from either chairs (custom format) or stations (domain model)
   const normalizedChairs: NormalizedChair[] = React.useMemo(() => {
-    if (stations && stations.length > 0) {
-      return stations.map((s) => ({
-        chairNumber: s.chairNumber,
-        barberId: s.barber.id,
-        barberName: s.barber.name,
-        avatarUrl: s.barber.avatarUrl,
-        status: s.workStatus,
-        startedAt: s.startedAt,
-        ticket: s.currentTicket
-          ? {
-              id: s.currentTicket.id,
-              ticketNumber: s.currentTicket.ticketNumber,
-              customerName: s.currentTicket.customer?.name || "Pelanggan Walk-in",
-              serviceName:
-                s.currentTicket.items && s.currentTicket.items.length > 0
-                  ? s.currentTicket.items.map((i) => i.itemName).join(", ")
-                  : "Potong Rambut Reguler",
-              subtotal: Number(s.currentTicket.subtotal || 0),
-              paymentStatus: s.currentTicket.paymentStatus,
-              isRequested: s.currentTicket.requestedBarberId === s.barber.id,
-              rawTicket: s.currentTicket,
-            }
-          : null,
-      }));
-    }
-
     if (chairs && chairs.length > 0) {
       return chairs.map((c) => ({
         chairNumber: c.chairNumber,
         barberId: c.barberId,
         barberName: c.barberName,
         avatarUrl: c.avatarUrl,
-        status: String(c.status || c.workStatus || "READY"),
+        status: (c.workStatus || c.status || "READY") as NormalizedChair["status"],
         startedAt: c.startedAt || c.ticket?.startedAt,
-        ticket: c.ticket
+        ticket: c.ticket,
+      }));
+    }
+
+    if (stations && stations.length > 0) {
+      return stations.map((s, idx) => ({
+        chairNumber: s.chairNumber || idx + 1,
+        barberId: s.barber?.id || (s as any).barberId,
+        barberName: s.barber?.name || (s as any).barberName || `Barber #${idx + 1}`,
+        avatarUrl: s.barber?.avatarUrl || (s as any).avatarUrl || null,
+        status: s.workStatus as NormalizedChair["status"],
+        startedAt: s.startedAt || s.currentTicket?.createdAt,
+        ticket: s.currentTicket
           ? {
-              id: c.ticket.id,
-              ticketNumber: c.ticket.ticketNumber,
-              customerName: c.ticket.customerName,
-              serviceName: c.ticket.serviceName,
-              subtotal: c.ticket.subtotal,
-              paymentStatus: c.ticket.paymentStatus,
-              rawTicket: {
-                id: c.ticket.id,
-                ticketNumber: c.ticket.ticketNumber,
-                subtotal: c.ticket.subtotal || 0,
-                paymentStatus: c.ticket.paymentStatus || "UNPAID",
-                serviceStatus: "IN_SERVICE",
-                customer: { name: c.ticket.customerName },
-                items: [{ itemName: c.ticket.serviceName }],
-              } as unknown as QueueItemTicket,
+              id: s.currentTicket.id,
+              ticketNumber: s.currentTicket.ticketNumber,
+              customerName:
+                s.currentTicket.customer?.name || "Pelanggan Walk-in",
+              serviceName:
+                s.currentTicket.items && s.currentTicket.items.length > 0
+                  ? s.currentTicket.items.map((i) => i.itemName).join(", ")
+                  : "Potong Rambut",
+              subtotal: Number(s.currentTicket.subtotal) || 0,
+              paymentStatus: s.currentTicket.paymentStatus,
+              startedAt: s.currentTicket.createdAt,
             }
           : null,
       }));
     }
 
     return [];
-  }, [stations, chairs]);
+  }, [chairs, stations]);
 
   const handleOpenCompletion = (chair: NormalizedChair) => {
     if (!chair.ticket) return;
 
-    const rawTicket: QueueItemTicket = chair.ticket.rawTicket || {
+    const rawTicket: QueueItemTicket = {
       id: chair.ticket.id,
       ticketNumber: chair.ticket.ticketNumber,
       serviceStatus: "IN_SERVICE",
@@ -218,12 +199,12 @@ export function ActiveChairsGrid({
 
   if (normalizedChairs.length === 0) {
     return (
-      <div className="bg-[#221f1b] border border-[#38332c] rounded-2xl p-8 text-center space-y-2">
-        <Scissors className="w-8 h-8 text-amber-500 mx-auto opacity-70" />
-        <h4 className="text-sm font-semibold text-[#f5f4f0]">
+      <div className="bg-white border border-[#E8E5DE] rounded-2xl p-8 text-center space-y-2 shadow-sm">
+        <Scissors className="w-8 h-8 text-[#D97706] mx-auto opacity-70" />
+        <h4 className="text-sm font-bold text-[#1A1A1A]">
           Belum Ada Meja / Barber Terdaftar
         </h4>
-        <p className="text-xs text-[#a39e93]">
+        <p className="text-xs text-[#706E68]">
           Tambahkan staf barber pada menu pengaturan untuk mengaktifkan meja cukur.
         </p>
       </div>
@@ -236,15 +217,15 @@ export function ActiveChairsGrid({
   return (
     <div className={`space-y-4 ${className}`}>
       {/* Ringkasan Status Meja */}
-      <div className="flex items-center justify-between flex-wrap gap-2 text-xs">
+      <div className="flex items-center justify-between flex-wrap gap-2 text-xs px-1">
         <div className="flex items-center gap-3">
-          <span className="text-[#a39e93]">
-            Total Meja: <strong>{normalizedChairs.length}</strong>
+          <span className="text-[#706E68]">
+            Total Meja: <strong className="text-[#1A1A1A]">{normalizedChairs.length}</strong>
           </span>
-          <span className="text-rose-400">
+          <span className="text-[#D93025]">
             Terisi: <strong>{busyChairsCount}</strong>
           </span>
-          <span className="text-emerald-400">
+          <span className="text-[#1E8E3E]">
             Tersedia: <strong>{readyChairsCount}</strong>
           </span>
         </div>
@@ -301,185 +282,143 @@ function ChairCardItem({
 
   return (
     <div
-      className={`rounded-2xl border p-4 sm:p-5 transition-all flex flex-col justify-between shadow-md ${
+      className={`rounded-2xl border p-4 sm:p-5 transition-all flex flex-col justify-between shadow-sm bg-white ${
         isBusy
-          ? "bg-[#221f1b] border-amber-500/40 ring-1 ring-amber-500/20"
+          ? "border-[#FDF0F2] ring-1 ring-[#D93025]/20"
           : isReady
-          ? "bg-[#221f1b] border-emerald-500/30"
-          : "bg-[#1d1b18] border-[#38332c] opacity-90"
+          ? "border-[#E8E5DE] hover:border-[#D5D1C8]"
+          : "border-[#E8E5DE] opacity-90"
       }`}
     >
       <div>
         {/* Header Meja & Status */}
-        <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#38332c]">
+        <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#E8E5DE]">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-xs shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#111111] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
               #{chairNumber}
             </div>
             <div className="min-w-0">
-              <h4 className="text-sm font-bold text-[#f5f4f0] truncate">
-                Meja {chairNumber}
+              <h4 className="text-xs font-bold text-[#1A1A1A] truncate">
+                {barberName}
               </h4>
-              <p className="text-xs text-[#a39e93] truncate flex items-center gap-1">
-                <User className="w-3 h-3 text-amber-400 shrink-0" />
-                <span>{barberName}</span>
-              </p>
+              <span className="text-[10px] text-[#706E68]">Meja #{chairNumber}</span>
             </div>
           </div>
+
           <div>
             {isBusy ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/15 border border-rose-500/30 text-rose-400">
-                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                Sedang Cukur
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#FDF0F2] text-[#D93025] border border-[#D93025]/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D93025] animate-pulse" />
+                Mencukur
               </span>
             ) : isReady ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                Ready (Siap)
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E8F7EE] text-[#1E8E3E] border border-[#1E8E3E]/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#1E8E3E]" />
+                Siap
               </span>
             ) : isBreak ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/15 border border-amber-500/30 text-amber-400">
-                <Coffee className="w-3.5 h-3.5" />
-                Break
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#FEF3EB] text-[#D97706] border border-[#D97706]/20">
+                <Coffee className="w-3 h-3" />
+                Istirahat
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-500/15 border border-stone-500/30 text-stone-400">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#F6F5F2] text-[#706E68] border border-[#E8E5DE]">
                 Offline
               </span>
             )}
           </div>
         </div>
 
-        {/* Konten Meja */}
-        <div className="py-3.5 space-y-3">
+        {/* Content Tengah: Info Pelanggan di Kursi atau Status Siap */}
+        <div className="py-3">
           {isBusy && ticket ? (
-            <div className="space-y-2.5 bg-[#181614] rounded-xl p-3 border border-[#38332c]">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-mono font-bold text-amber-400">
+            <div className="p-3 rounded-xl bg-[#F6F5F2] border border-[#E8E5DE] space-y-1.5">
+              <div className="flex items-center justify-between gap-1 text-[11px]">
+                <span className="font-mono text-[#D97706] font-bold">
                   {ticket.ticketNumber}
                 </span>
-                <span className="flex items-center gap-1 font-mono text-emerald-400 font-semibold">
-                  <Clock className="w-3.5 h-3.5" />
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white text-[#D93025] font-mono font-bold text-[10px] border border-[#E8E5DE]">
+                  <Clock className="w-2.5 h-2.5" />
                   {timer}
                 </span>
               </div>
-
-              <div>
-                <p className="text-sm font-bold text-[#f5f4f0] truncate">
-                  {ticket.customerName}
-                </p>
-                <p className="text-xs text-[#a39e93] truncate">
-                  {ticket.serviceName}
-                </p>
+              <div className="text-sm font-bold text-[#1A1A1A] truncate">
+                {ticket.customerName}
               </div>
-
-              {ticket.isRequested && (
-                <div className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
-                  ★ Pelanggan Request {barberName}
-                </div>
-              )}
+              <div className="text-xs text-[#706E68] truncate">
+                {ticket.serviceName}
+              </div>
             </div>
           ) : isReady ? (
-            <div className="py-4 text-center space-y-1 bg-[#181614]/60 rounded-xl border border-dashed border-emerald-500/20">
-              <CheckCircle2 className="w-6 h-6 text-emerald-400 mx-auto" />
-              <p className="text-xs font-semibold text-emerald-300">
-                Kursi Siap Digunakan
+            <div className="py-4 text-center space-y-1">
+              <div className="w-8 h-8 rounded-full bg-[#E8F7EE] text-[#1E8E3E] flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
+              <p className="text-xs font-semibold text-[#1E8E3E]">
+                Kursi Siap Dipakai
               </p>
-              <p className="text-[11px] text-[#a39e93]">
-                Menunggu antrean otomatis atau panggil manual
+              <p className="text-[11px] text-[#706E68]">
+                Menunggu panggilan antrean pelanggan
               </p>
             </div>
           ) : isBreak ? (
-            <div className="py-4 text-center space-y-1 bg-[#181614]/60 rounded-xl border border-dashed border-amber-500/20">
-              <Coffee className="w-6 h-6 text-amber-400 mx-auto" />
-              <p className="text-xs font-semibold text-amber-300">
-                Sedang Istirahat / Break
+            <div className="py-4 text-center space-y-1">
+              <div className="w-8 h-8 rounded-full bg-[#FEF3EB] text-[#D97706] flex items-center justify-center mx-auto">
+                <Coffee className="w-4 h-4" />
+              </div>
+              <p className="text-xs font-semibold text-[#D97706]">
+                Barber Sedang Rehat
               </p>
-              <p className="text-[11px] text-[#a39e93]">
-                Kursi tidak menerima plotting otomatis
+              <p className="text-[11px] text-[#706E68]">
+                Tidak menerima antrean baru
               </p>
             </div>
           ) : (
-            <div className="py-4 text-center space-y-1 bg-[#181614]/60 rounded-xl border border-dashed border-stone-600/30">
-              <AlertCircle className="w-6 h-6 text-stone-500 mx-auto" />
-              <p className="text-xs font-semibold text-stone-400">
-                Barber Sedang Offline
-              </p>
-              <p className="text-[11px] text-[#a39e93]">
-                Tidak bertugas saat ini
-              </p>
+            <div className="py-4 text-center text-xs text-[#A8A59E]">
+              Kursi tidak aktif hari ini
             </div>
           )}
         </div>
       </div>
 
-      {/* Tombol Aksi Bawah */}
-      <div className="pt-2 space-y-2">
+      {/* Footer Aksi */}
+      <div className="pt-2 border-t border-[#E8E5DE] flex items-center justify-between gap-2">
         {isBusy && ticket ? (
-          <>
-            <button
-              type="button"
-              onClick={onOpenCompletion}
-              className="w-full min-h-[48px] px-3.5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-stone-950 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
-            >
-              <Scissors className="w-4 h-4 rotate-[-45deg]" />
-              <span>Selesai Cukur</span>
-            </button>
-
-            {onCheckoutTicket && (
+          <div className="w-full flex items-center gap-2">
+            {ticket.paymentStatus !== "PAID" && onCheckoutTicket && (
               <button
                 type="button"
                 onClick={() => onCheckoutTicket(ticket.id)}
-                className="w-full py-2 px-3 bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-[#f5f4f0] rounded-xl font-medium text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="flex-1 py-2 px-3 rounded-full bg-[#FEF3EB] hover:bg-[#FEF3EB]/80 text-[#D97706] font-bold text-xs border border-[#D97706]/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <CreditCard className="w-3.5 h-3.5 text-amber-400" />
-                <span>Bayar Sekarang (POS)</span>
-              </button>
-            )}
-          </>
-        ) : isReady ? (
-          <div className="flex items-center gap-2">
-            {onCallNext && (
-              <button
-                type="button"
-                onClick={onCallNext}
-                className="flex-1 min-h-[44px] px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Panggil Antrean</span>
+                <CreditCard className="w-3.5 h-3.5" />
+                <span>Bayar</span>
               </button>
             )}
             <button
               type="button"
-              onClick={() => onToggleStatus?.(barberId, "BREAK")}
-              className="min-h-[44px] px-3 py-2 bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-amber-400 rounded-xl font-medium text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              onClick={onOpenCompletion}
+              className="flex-1 py-2.5 px-4 rounded-full bg-[#111111] hover:bg-neutral-800 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
             >
-              <Coffee className="w-3.5 h-3.5" />
-              <span>Break</span>
+              <Scissors className="w-3.5 h-3.5" />
+              <span>Selesai Cukur</span>
             </button>
           </div>
-        ) : isBreak ? (
+        ) : isReady ? (
           <button
             type="button"
-            onClick={() => onToggleStatus?.(barberId, "READY")}
-            className="w-full min-h-[44px] px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            onClick={onCallNext}
+            className="w-full py-2.5 px-4 rounded-full bg-[#111111] hover:bg-neutral-800 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>Kembali Ready (Aktifkan Meja)</span>
+            <span>Panggil Antrean</span>
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={() => onToggleStatus?.(barberId, "READY")}
-            className="w-full min-h-[44px] px-3 py-2 bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-[#f5f4f0] rounded-xl font-medium text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Aktifkan Barber</span>
-          </button>
+          <div className="w-full text-center py-1 text-[11px] text-[#A8A59E]">
+            Status: {status}
+          </div>
         )}
       </div>
     </div>
   );
 }
-
-export default ActiveChairsGrid;

@@ -123,14 +123,14 @@ export function QueueListView({
 
   if (items.length === 0) {
     return (
-      <div className={`bg-[#221f1b] border border-[#38332c] rounded-2xl p-8 text-center space-y-3 ${className}`}>
-        <div className="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto">
+      <div className={`bg-white border border-[#E8E5DE] rounded-2xl p-8 text-center space-y-3 shadow-[0_1px_3px_rgba(28,25,23,0.02)] ${className}`}>
+        <div className="w-12 h-12 rounded-full bg-[#E8F7EE] border border-[#CEEAD6] flex items-center justify-center text-[#1E8E3E] mx-auto">
           <CheckCircle className="w-6 h-6" />
         </div>
-        <h4 className="text-base font-bold text-[#f5f4f0]">
+        <h4 className="text-base font-bold text-[#1A1A1A]">
           Ruang Tunggu Santai (Antrean Kosong)
         </h4>
-        <p className="text-xs text-[#a39e93] max-w-sm mx-auto">
+        <p className="text-xs text-[#706E68] max-w-sm mx-auto">
           Semua pelanggan telah terlayani di meja potong atau belum ada tiket menunggu yang dibuat kasir.
         </p>
       </div>
@@ -142,13 +142,13 @@ export function QueueListView({
   return (
     <div className={`space-y-3.5 ${className}`}>
       {/* Header Info */}
-      <div className="flex items-center justify-between text-xs text-[#a39e93] px-1">
+      <div className="flex items-center justify-between text-xs text-[#706E68] px-1">
         <span>
-          Menunggu: <strong className="text-amber-400 font-semibold">{items.length} Orang</strong>
+          Menunggu: <strong className="text-[#1A1A1A] font-semibold">{items.length} Orang</strong>
         </span>
         {availableBarbers.length > 0 && (
           <span>
-            Barber Siap: <strong className="text-emerald-400 font-semibold">{readyBarbers.length} Kursi</strong>
+            Barber Siap: <strong className="text-[#1E8E3E] font-semibold">{readyBarbers.length} Kursi</strong>
           </span>
         )}
       </div>
@@ -162,51 +162,51 @@ export function QueueListView({
           return (
             <div
               key={item.id}
-              className={`bg-[#221f1b] border rounded-2xl p-3.5 sm:p-4 transition-all shadow-sm ${
+              className={`bg-white border rounded-2xl p-3.5 sm:p-4 transition-all shadow-[0_1px_3px_rgba(28,25,23,0.02)] ${
                 isAssignedSelected
-                  ? "border-amber-500/60 ring-1 ring-amber-500/30"
-                  : "border-[#38332c] hover:border-stone-600/60"
+                  ? "border-[#D97706] ring-1 ring-[#D97706]/30"
+                  : "border-[#E8E5DE] hover:border-[#D5D1C8]"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
                 {/* Info Utama Antrean */}
                 <div className="flex items-start gap-3 min-w-0">
                   {/* Badge Urutan */}
-                  <div className="w-10 h-10 rounded-xl bg-[#181614] border border-[#38332c] flex flex-col items-center justify-center shrink-0">
-                    <span className="text-[10px] text-[#a39e93] leading-none">Antre</span>
-                    <span className="text-xs font-bold text-amber-400">#{index + 1}</span>
+                  <div className="w-10 h-10 rounded-xl bg-[#F6F5F2] border border-[#E8E5DE] flex flex-col items-center justify-center shrink-0">
+                    <span className="text-[10px] text-[#706E68] leading-none">Antre</span>
+                    <span className="text-xs font-bold text-[#1A1A1A]">#{index + 1}</span>
                   </div>
 
                   <div className="min-w-0 space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono text-xs font-bold text-amber-400">
+                      <span className="font-mono text-xs font-bold text-[#1A1A1A] bg-[#F6F5F2] px-2 py-0.5 rounded-md border border-[#E8E5DE]">
                         {item.ticketNumber}
                       </span>
 
                       {/* Request Badge */}
                       {item.requestedBarberName ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-500/15 border border-amber-500/30 text-amber-300">
-                          <Sparkles className="w-3 h-3 text-amber-400" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEF3EB] border border-[#FDE6D2] text-[#D97706]">
+                          <Sparkles className="w-3 h-3 text-[#D97706]" />
                           Request: {item.requestedBarberName}
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-stone-500/15 border border-stone-500/30 text-stone-300">
-                          🎲 Bebas (Siapa Saja)
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#EEF6FE] border border-[#D3E3FD] text-[#1A73E8]">
+                          Bebas (Siapa Saja)
                         </span>
                       )}
                     </div>
 
-                    <h4 className="text-sm font-bold text-[#f5f4f0] truncate">
+                    <h4 className="text-sm font-bold text-[#1A1A1A] truncate">
                       {item.customerName}
                     </h4>
 
-                    <p className="text-xs text-[#a39e93] truncate">
+                    <p className="text-xs text-[#706E68] truncate">
                       {item.serviceName}
                     </p>
 
                     {item.customerPhone && (
-                      <p className="text-[11px] text-[#a39e93] flex items-center gap-1">
-                        <Phone className="w-3 h-3 text-stone-400" />
+                      <p className="text-[11px] text-[#706E68] flex items-center gap-1">
+                        <Phone className="w-3 h-3 text-[#706E68]" />
                         <span>{item.customerPhone}</span>
                       </p>
                     )}
@@ -215,8 +215,8 @@ export function QueueListView({
 
                 {/* Status Tunggu & Tombol Aksi */}
                 <div className="text-right flex flex-col items-end gap-2 shrink-0">
-                  <div className="flex items-center gap-1 text-xs font-mono text-stone-300 bg-[#181614] px-2 py-1 rounded-lg border border-[#38332c]">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <div className="flex items-center gap-1 text-xs font-mono text-[#706E68] bg-[#F6F5F2] px-2.5 py-1 rounded-full border border-[#E8E5DE]">
+                    <Clock className="w-3.5 h-3.5 text-[#D97706]" />
                     <span>{item.waitingMinutes} mnt</span>
                   </div>
 
@@ -226,7 +226,7 @@ export function QueueListView({
                       <button
                         type="button"
                         onClick={() => onAssignBarber(item.id)}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-stone-950 transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#111111] hover:bg-black text-white shadow-sm transition-all cursor-pointer"
                       >
                         <Scissors className="w-3.5 h-3.5" />
                         <span>Panggil</span>
@@ -241,7 +241,7 @@ export function QueueListView({
                         onClick={() =>
                           setSelectedTicketId(isAssignedSelected ? null : item.id)
                         }
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-amber-400 hover:text-amber-300 transition-colors disabled:opacity-50 cursor-pointer"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] text-[#1A1A1A] transition-colors disabled:opacity-50 cursor-pointer"
                       >
                         <Scissors className="w-3.5 h-3.5" />
                         <span>Pilih Meja</span>
@@ -258,9 +258,9 @@ export function QueueListView({
                       <button
                         type="button"
                         onClick={() => onPayTicket(item.id)}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-medium bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-[#f5f4f0] transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-[#FEF3EB] hover:bg-[#FDE6D2] border border-[#FDE6D2] text-[#D97706] transition-colors cursor-pointer"
                       >
-                        <CreditCard className="w-3.5 h-3.5 text-stone-400" />
+                        <CreditCard className="w-3.5 h-3.5 text-[#D97706]" />
                         <span>Bayar</span>
                       </button>
                     )}
@@ -270,13 +270,13 @@ export function QueueListView({
 
               {/* Sub-menu Pilihan Meja / Barber untuk Assign Manual */}
               {isAssignedSelected && onAssignManual && (
-                <div className="mt-3.5 pt-3.5 border-t border-[#38332c] space-y-2 animate-in fade-in duration-200">
-                  <p className="text-xs font-semibold text-[#f5f4f0]">
+                <div className="mt-3.5 pt-3.5 border-t border-[#E8E5DE] space-y-2 animate-in fade-in duration-200">
+                  <p className="text-xs font-semibold text-[#1A1A1A]">
                     Pilih Meja/Barber untuk Pelanggan Ini:
                   </p>
 
                   {availableBarbers.length === 0 ? (
-                    <p className="text-xs text-[#a39e93] italic">
+                    <p className="text-xs text-[#706E68] italic">
                       Tidak ada data barber siap untuk penugasan langsung.
                     </p>
                   ) : (
@@ -291,25 +291,25 @@ export function QueueListView({
                             onClick={() => handleManualAssign(item.id, barber.id)}
                             className={`p-2.5 rounded-xl border text-left text-xs flex items-center justify-between gap-2 transition-all cursor-pointer ${
                               isReady
-                                ? "bg-emerald-950/30 border-emerald-500/40 hover:bg-emerald-900/40 text-emerald-200"
-                                : "bg-[#181614] border-[#38332c] hover:bg-[#2c2823] text-[#a39e93]"
+                                ? "bg-[#E8F7EE] border-[#CEEAD6] hover:bg-[#CEEAD6]/50 text-[#1E8E3E]"
+                                : "bg-[#F6F5F2] border-[#E8E5DE] hover:bg-[#EFECE6] text-[#706E68]"
                             }`}
                           >
                             <div className="flex items-center gap-2 min-w-0">
                               <UserCheck
                                 className={`w-4 h-4 shrink-0 ${
-                                  isReady ? "text-emerald-400" : "text-stone-500"
+                                  isReady ? "text-[#1E8E3E]" : "text-[#706E68]"
                                 }`}
                               />
-                              <span className="font-semibold truncate">
+                              <span className="font-semibold truncate text-[#1A1A1A]">
                                 {barber.user.name}
                               </span>
                             </div>
                             <span
-                              className={`text-[10px] px-1.5 py-0.5 rounded shrink-0 font-medium ${
+                              className={`text-[10px] px-2 py-0.5 rounded-full shrink-0 font-medium ${
                                 isReady
-                                  ? "bg-emerald-500/20 text-emerald-300"
-                                  : "bg-stone-800 text-stone-400"
+                                  ? "bg-white text-[#1E8E3E] border border-[#CEEAD6]"
+                                  : "bg-white text-[#706E68] border border-[#E8E5DE]"
                               }`}
                             >
                               {isReady ? "Siap" : barber.workStatus}
@@ -321,7 +321,7 @@ export function QueueListView({
                   )}
 
                   {isBusyAssigning && (
-                    <div className="flex items-center justify-center gap-2 text-xs text-amber-400 pt-1">
+                    <div className="flex items-center justify-center gap-2 text-xs text-[#D97706] pt-1">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Menempatkan pelanggan ke meja...</span>
                     </div>

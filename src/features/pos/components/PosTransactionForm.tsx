@@ -242,18 +242,18 @@ export function PosTransactionForm({
   };
 
   return (
-    <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-5 sm:p-6 space-y-5 shadow-xl relative">
+    <div className="bg-white border border-[#E8E5DE] rounded-[20px] p-5 sm:p-6 space-y-5 shadow-[0_1px_3px_rgba(28,25,23,0.02)] relative">
       {/* Panel Header */}
-      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+      <div className="flex items-center justify-between border-b border-[#E8E5DE] pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
+          <div className="w-10 h-10 rounded-xl bg-[#FFF5EB] border border-[#FDE6D2] flex items-center justify-center text-[#D97706] font-bold">
             <Receipt className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-[var(--foreground)] tracking-tight">
+            <h2 className="text-base font-bold text-[#1A1A1A] tracking-tight">
               Kasir POS Langsung
             </h2>
-            <p className="text-xs text-[var(--foreground-muted)]">
+            <p className="text-xs text-[#706E68]">
               Input cepat tanpa pop-up modal
             </p>
           </div>
@@ -262,7 +262,7 @@ export function PosTransactionForm({
           <button
             type="button"
             onClick={clearCart}
-            className="text-xs text-stone-500 hover:text-red-400 transition-colors cursor-pointer"
+            className="text-xs text-[#706E68] hover:text-[#D93025] transition-colors cursor-pointer"
           >
             Bersihkan
           </button>
@@ -273,8 +273,8 @@ export function PosTransactionForm({
         <div
           className={`p-3 rounded-xl border text-xs flex items-center gap-2 ${
             statusMessage.type === "success"
-              ? "bg-emerald-950/40 border-emerald-800 text-emerald-300"
-              : "bg-red-950/40 border-red-800 text-red-300"
+              ? "bg-[#E8F7EE] border-[#CEEAD6] text-[#1E8E3E]"
+              : "bg-[#FDF0F2] border-[#FCDAD7] text-[#D93025]"
           }`}
         >
           {statusMessage.type === "success" ? (
@@ -288,14 +288,14 @@ export function PosTransactionForm({
 
       {/* Catalog Selector Tabs */}
       <div className="space-y-3">
-        <div className="grid grid-cols-2 gap-2 p-1 bg-[var(--background)] rounded-xl border border-[var(--border)]">
+        <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#F6F5F2] rounded-full border border-[#E8E5DE]">
           <button
             type="button"
             onClick={() => setActiveCatalogTab("SERVICES")}
-            className={`py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            className={`py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
               activeCatalogTab === "SERVICES"
-                ? "bg-[var(--primary)] text-white shadow"
-                : "text-[var(--foreground-muted)] hover:text-white"
+                ? "bg-[#111111] text-white shadow-xs"
+                : "text-[#706E68] hover:text-[#1A1A1A]"
             }`}
           >
             <Scissors className="w-3.5 h-3.5" />
@@ -304,10 +304,10 @@ export function PosTransactionForm({
           <button
             type="button"
             onClick={() => setActiveCatalogTab("PRODUCTS")}
-            className={`py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            className={`py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
               activeCatalogTab === "PRODUCTS"
-                ? "bg-[var(--primary)] text-white shadow"
-                : "text-[var(--foreground-muted)] hover:text-white"
+                ? "bg-[#111111] text-white shadow-xs"
+                : "text-[#706E68] hover:text-[#1A1A1A]"
             }`}
           >
             <ShoppingBag className="w-3.5 h-3.5" />
@@ -330,12 +330,12 @@ export function PosTransactionForm({
                       price: srv.price,
                     })
                   }
-                  className="p-2.5 rounded-xl bg-[var(--background)] hover:bg-[var(--surface-hover)] border border-[var(--border)] text-left transition-all cursor-pointer group"
+                  className="p-2.5 rounded-xl bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] text-left transition-all cursor-pointer group shadow-2xs"
                 >
-                  <p className="text-xs font-bold text-[var(--foreground)] truncate group-hover:text-amber-400">
+                  <p className="text-xs font-bold text-[#1A1A1A] truncate group-hover:text-[#D97706]">
                     {srv.name}
                   </p>
-                  <p className="text-[10px] text-amber-300 font-mono mt-0.5">
+                  <p className="text-[11px] text-[#D97706] font-mono mt-0.5 font-semibold">
                     {formatRupiah(srv.price)}
                   </p>
                 </button>
@@ -352,13 +352,16 @@ export function PosTransactionForm({
                       price: prd.price || 0,
                     })
                   }
-                  className="p-2.5 rounded-xl bg-[var(--background)] hover:bg-[var(--surface-hover)] border border-[var(--border)] text-left transition-all cursor-pointer group"
+                  className="p-2.5 rounded-xl bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] text-left transition-all cursor-pointer group shadow-2xs"
                 >
-                  <p className="text-xs font-bold text-[var(--foreground)] truncate group-hover:text-amber-400">
+                  <p className="text-xs font-bold text-[#1A1A1A] truncate group-hover:text-[#1A73E8]">
                     {prd.name}
                   </p>
-                  <p className="text-[10px] text-emerald-400 font-mono mt-0.5">
-                    {formatRupiah(prd.price || 0)} (Stok: {prd.stockQty})
+                  <p className="text-[11px] text-[#1A73E8] font-mono mt-0.5 font-semibold">
+                    {formatRupiah(prd.price || 0)}{" "}
+                    <span className="text-[#706E68] font-normal font-sans text-[10px]">
+                      (Stok: {prd.stockQty})
+                    </span>
                   </p>
                 </button>
               ))}
@@ -366,14 +369,14 @@ export function PosTransactionForm({
       </div>
 
       {/* Cart Summary List */}
-      <div className="bg-[var(--background)]/80 rounded-2xl p-3.5 border border-[var(--border)] space-y-2">
-        <div className="flex items-center justify-between text-xs font-semibold text-[var(--foreground-muted)] border-b border-[var(--border)]/60 pb-1.5">
+      <div className="bg-[#F6F5F2] rounded-2xl p-3.5 border border-[#E8E5DE] space-y-2">
+        <div className="flex items-center justify-between text-xs font-semibold text-[#706E68] border-b border-[#E8E5DE] pb-1.5">
           <span>Keranjang Pesanan ({cartItems.length} Item)</span>
-          <span className="font-mono text-amber-400">{formatRupiah(totalAmount)}</span>
+          <span className="font-mono font-bold text-[#1A1A1A]">{formatRupiah(totalAmount)}</span>
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="py-4 text-center text-xs text-stone-500">
+          <div className="py-4 text-center text-xs text-[#706E68]">
             Pilih layanan atau produk di atas untuk menambahkan ke transaksi.
           </div>
         ) : (
@@ -381,11 +384,11 @@ export function PosTransactionForm({
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between text-xs py-1 border-b border-[var(--border)]/30"
+                className="flex items-center justify-between text-xs py-1.5 border-b border-[#E8E5DE]/60 last:border-b-0"
               >
                 <div className="min-w-0 pr-2">
-                  <p className="font-bold text-[var(--foreground)] truncate">{item.name}</p>
-                  <p className="text-[10px] text-[var(--foreground-muted)] font-mono">
+                  <p className="font-bold text-[#1A1A1A] truncate">{item.name}</p>
+                  <p className="text-[10px] text-[#706E68] font-mono">
                     {formatRupiah(item.price)}
                   </p>
                 </div>
@@ -393,11 +396,11 @@ export function PosTransactionForm({
                   <button
                     type="button"
                     onClick={() => decrementItemInCart(item.id)}
-                    className="p-1 rounded bg-stone-800 hover:bg-stone-700 text-white cursor-pointer"
+                    className="p-1 rounded-full bg-white hover:bg-[#EFECE6] border border-[#E8E5DE] text-[#1A1A1A] cursor-pointer shadow-2xs"
                   >
                     <Minus className="w-2.5 h-2.5" />
                   </button>
-                  <span className="w-5 text-center font-bold text-amber-400">
+                  <span className="w-5 text-center font-bold text-[#1A1A1A]">
                     {item.quantity}
                   </span>
                   <button
@@ -410,14 +413,14 @@ export function PosTransactionForm({
                         price: item.price,
                       })
                     }
-                    className="p-1 rounded bg-stone-800 hover:bg-stone-700 text-white cursor-pointer"
+                    className="p-1 rounded-full bg-white hover:bg-[#EFECE6] border border-[#E8E5DE] text-[#1A1A1A] cursor-pointer shadow-2xs"
                   >
                     <Plus className="w-2.5 h-2.5" />
                   </button>
                   <button
                     type="button"
                     onClick={() => removeItemFromCart(item.id)}
-                    className="p-1 rounded text-stone-500 hover:text-red-400 cursor-pointer ml-1"
+                    className="p-1 rounded-full text-[#706E68] hover:text-[#D93025] cursor-pointer ml-1"
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -436,28 +439,28 @@ export function PosTransactionForm({
             placeholder="Nama Pelanggan *"
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-white placeholder-stone-600 focus:outline-none focus:border-amber-500"
+            className="w-full px-3 py-2 rounded-xl bg-white border border-[#E8E5DE] text-xs text-[#1A1A1A] placeholder-[#A8A59E] focus:outline-none focus:border-[#111111]"
           />
           <input
             type="tel"
             placeholder="No WhatsApp"
             value={customerPhone}
             onChange={(e) => setCustomerPhone(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-white placeholder-stone-600 focus:outline-none focus:border-amber-500"
+            className="w-full px-3 py-2 rounded-xl bg-white border border-[#E8E5DE] text-xs text-[#1A1A1A] placeholder-[#A8A59E] focus:outline-none focus:border-[#111111]"
           />
         </div>
 
         {/* Barber Preference */}
         <div className="space-y-1">
-          <label className="text-[11px] font-semibold text-[var(--foreground-muted)]">
+          <label className="text-[11px] font-semibold text-[#706E68]">
             Tugaskan / Request Barber:
           </label>
           <select
             value={selectedBarberId}
             onChange={(e) => setSelectedBarberId(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-white focus:outline-none focus:border-amber-500 cursor-pointer"
+            className="w-full px-3 py-2 rounded-xl bg-white border border-[#E8E5DE] text-xs text-[#1A1A1A] focus:outline-none focus:border-[#111111] cursor-pointer"
           >
-            <option value="ANY">⚡ Siapa Saja (Otomatis Mesin Antrean)</option>
+            <option value="ANY">Siapa Saja (Otomatis Mesin Antrean)</option>
             {availableBarbers.map((b) => (
               <option key={b.id} value={b.id}>
                 {b.name} ({b.workStatus})
@@ -467,8 +470,8 @@ export function PosTransactionForm({
         </div>
 
         {/* Payment Method Selector */}
-        <div className="space-y-1.5 pt-1 border-t border-[var(--border)]/50">
-          <div className="flex items-center justify-between text-xs font-semibold text-[var(--foreground-muted)]">
+        <div className="space-y-1.5 pt-1 border-t border-[#E8E5DE]">
+          <div className="flex items-center justify-between text-xs font-semibold text-[#706E68]">
             <span>Metode Bayar (Jika Langsung Lunas):</span>
           </div>
           <div className="grid grid-cols-4 gap-1.5">
@@ -480,10 +483,10 @@ export function PosTransactionForm({
                   setPaymentMethod(m);
                   if (m === "CASH") setReceivedCash(totalAmount);
                 }}
-                className={`py-1.5 px-1 rounded-xl text-[10px] font-bold border transition-all cursor-pointer text-center ${
+                className={`py-1.5 px-1 rounded-full text-[10px] font-bold border transition-all cursor-pointer text-center ${
                   paymentMethod === m
-                    ? "bg-amber-500/20 border-amber-500 text-amber-300 ring-2 ring-amber-500/30"
-                    : "bg-[var(--background)] border-[var(--border)] text-[var(--foreground-muted)] hover:text-white"
+                    ? "bg-[#FFF5EB] border-[#D97706] text-[#D97706] ring-1 ring-[#D97706]/30 shadow-2xs"
+                    : "bg-white border-[#E8E5DE] text-[#706E68] hover:text-[#1A1A1A]"
                 }`}
               >
                 {m}
@@ -492,10 +495,10 @@ export function PosTransactionForm({
           </div>
 
           {paymentMethod === "CASH" && (
-            <div className="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-1.5">
-              <div className="flex justify-between text-[11px] font-semibold text-[var(--foreground-muted)]">
+            <div className="p-2.5 rounded-xl bg-[#F6F5F2] border border-[#E8E5DE] space-y-1.5">
+              <div className="flex justify-between text-[11px] font-semibold text-[#706E68]">
                 <span>Uang Diterima:</span>
-                <span className="font-mono text-emerald-400">
+                <span className="font-mono text-[#1E8E3E] font-bold">
                   {formatRupiah(receivedCash)}
                 </span>
               </div>
@@ -503,7 +506,7 @@ export function PosTransactionForm({
                 <button
                   type="button"
                   onClick={() => setReceivedCash(totalAmount)}
-                  className="py-1 px-2 rounded-lg bg-stone-800 text-[10px] font-bold text-amber-400 border border-[var(--border)] cursor-pointer"
+                  className="py-1 px-2.5 rounded-full bg-white text-[10px] font-bold text-[#D97706] border border-[#E8E5DE] cursor-pointer hover:bg-[#FFF5EB]"
                 >
                   Uang Pas
                 </button>
@@ -514,7 +517,7 @@ export function PosTransactionForm({
                       key={amt}
                       type="button"
                       onClick={() => setReceivedCash(amt)}
-                      className="py-1 px-2 rounded-lg bg-stone-800 text-[10px] font-bold text-white border border-[var(--border)] cursor-pointer"
+                      className="py-1 px-2.5 rounded-full bg-white text-[10px] font-bold text-[#1A1A1A] border border-[#E8E5DE] cursor-pointer hover:bg-stone-50"
                     >
                       {formatRupiah(amt)}
                     </button>
@@ -522,7 +525,7 @@ export function PosTransactionForm({
                 })}
               </div>
               {receivedCash >= totalAmount && (
-                <div className="flex justify-between text-[11px] font-bold text-emerald-400 pt-1 border-t border-[var(--border)]/40">
+                <div className="flex justify-between text-[11px] font-bold text-[#1E8E3E] pt-1 border-t border-[#E8E5DE]">
                   <span>Kembalian:</span>
                   <span className="font-mono">{formatRupiah(changeCash)}</span>
                 </div>
@@ -533,12 +536,12 @@ export function PosTransactionForm({
       </div>
 
       {/* Action Buttons: Pay now vs Pay later */}
-      <div className="pt-2 border-t border-[var(--border)] space-y-2">
+      <div className="pt-2 border-t border-[#E8E5DE] space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-[var(--foreground-muted)]">
+          <span className="text-xs font-bold text-[#706E68]">
             Total Tagihan:
           </span>
-          <span className="text-2xl font-black font-mono text-amber-400">
+          <span className="text-2xl font-black font-mono text-[#1A1A1A]">
             {formatRupiah(totalAmount)}
           </span>
         </div>
@@ -548,7 +551,7 @@ export function PosTransactionForm({
             type="button"
             disabled={isSubmitting || cartItems.length === 0}
             onClick={() => handleSubmit(false)}
-            className="py-3 px-3 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 active:scale-95 text-amber-300 font-bold text-xs transition-all cursor-pointer"
+            className="py-3 px-3 rounded-full bg-[#FFF5EB] hover:bg-[#FDE6D2] border border-[#FDE6D2] text-[#D97706] font-bold text-xs transition-all cursor-pointer disabled:opacity-50"
           >
             + Antrean (Bayar Belakang)
           </button>
@@ -561,7 +564,7 @@ export function PosTransactionForm({
               (paymentMethod === "CASH" && receivedCash < totalAmount)
             }
             onClick={() => handleSubmit(true)}
-            className="py-3 px-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 active:scale-95 disabled:opacity-50 text-stone-950 font-black text-xs shadow-lg shadow-emerald-950/40 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+            className="py-3 px-3 rounded-full bg-[#111111] hover:bg-black active:scale-95 disabled:opacity-50 text-white font-bold text-xs shadow-sm transition-all cursor-pointer flex items-center justify-center gap-1.5"
           >
             <CheckCircle className="w-4 h-4" />
             <span>Bayar Langsung (Lunas)</span>

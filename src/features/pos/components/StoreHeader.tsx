@@ -75,29 +75,26 @@ export function StoreHeader({
   const isDrawerOpen = drawerStatus === "OPEN";
 
   return (
-    <header className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-[var(--primary)]/5 blur-3xl pointer-events-none" />
-
+    <header className="bg-white border border-[#E8E5DE] rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
         {/* Left: Store identity & cashier */}
         <div className="flex items-start sm:items-center gap-3.5">
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[var(--primary)]/15 border border-[var(--primary)]/30 flex items-center justify-center text-[var(--primary)] shrink-0 shadow-inner">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#111111] flex items-center justify-center text-white shrink-0 shadow-sm">
             <Store className="w-6 h-6" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-base sm:text-lg font-bold text-[var(--foreground)] tracking-tight truncate">
+              <h1 className="text-base sm:text-lg font-bold text-[#1A1A1A] tracking-tight truncate">
                 {storeName}
               </h1>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-stone-800 text-[var(--foreground-muted)] border border-[var(--border)] font-mono">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#F6F5F2] text-[#706E68] border border-[#E8E5DE] font-mono">
                 /{storeSlug}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-[var(--foreground-muted)] mt-0.5 flex-wrap">
-              <span>Kasir: <strong className="text-[var(--foreground)] font-semibold">{cashierName}</strong></span>
+            <div className="flex items-center gap-2 text-xs text-[#706E68] mt-0.5 flex-wrap">
+              <span>Kasir: <strong className="text-[#1A1A1A] font-semibold">{cashierName}</strong></span>
               <span>•</span>
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FEF3EB] text-[#D97706] border border-[#D97706]/20">
                 {cashierRole}
               </span>
             </div>
@@ -111,10 +108,10 @@ export function StoreHeader({
             type="button"
             onClick={onOpenCashDrawer}
             title={isDrawerOpen ? "Laci Kasir Terbuka" : "Laci Kasir Ditutup"}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
               isDrawerOpen
-                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20"
-                : "bg-rose-500/10 text-rose-400 border-rose-500/30 hover:bg-rose-500/20"
+                ? "bg-[#E8F7EE] text-[#1E8E3E] border-[#1E8E3E]/20 hover:opacity-90"
+                : "bg-[#FDF0F2] text-[#D93025] border-[#D93025]/20 hover:opacity-90"
             }`}
           >
             <Wallet className="w-3.5 h-3.5" />
@@ -122,55 +119,54 @@ export function StoreHeader({
               <div className="flex items-center gap-1 leading-none">
                 {isDrawerOpen ? (
                   <>
-                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                    <CheckCircle2 className="w-3 h-3 text-[#1E8E3E]" />
                     <span>Laci Buka</span>
                   </>
                 ) : (
                   <>
-                    <AlertCircle className="w-3 h-3 text-rose-400" />
+                    <AlertCircle className="w-3 h-3 text-[#D93025]" />
                     <span>Laci Tutup</span>
                   </>
                 )}
               </div>
               {isDrawerOpen && drawerCash > 0 && (
-                <div className="text-[10px] text-emerald-300 font-mono mt-0.5 leading-none">
+                <div className="text-[10px] text-[#1E8E3E] font-bold font-mono mt-0.5 leading-none">
                   {formatRupiah(drawerCash)}
                 </div>
               )}
             </div>
           </button>
 
-          {/* Realtime Date & WIB Clock */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--background)]/80 border border-[var(--border)] text-xs font-medium text-[var(--foreground)]">
-            <Clock className="w-3.5 h-3.5 text-[var(--primary)] shrink-0" />
-            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1.5 leading-tight text-right sm:text-left">
-              <span className="text-[11px] text-[var(--foreground-muted)] hidden xs:inline">{wibDate || "Hari Ini"}</span>
-              <span className="font-mono font-bold text-amber-300">{wibTime || "--:--:-- WIB"}</span>
+          {/* Clock WIB */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F6F5F2] border border-[#E8E5DE] text-xs font-mono text-[#706E68]">
+            <Clock className="w-3.5 h-3.5 text-[#A8A59E]" />
+            <div className="flex flex-col text-left leading-tight">
+              <span className="font-semibold text-[#1A1A1A]">{wibTime}</span>
+              <span className="text-[9px] text-[#A8A59E]">{wibDate}</span>
             </div>
           </div>
 
-          {/* Layar Display TV Button */}
+          {/* Link Layar TV Display */}
           <Link
             href={`/${storeSlug}/queue`}
             target="_blank"
             rel="noopener noreferrer"
             title="Buka Layar Display TV Ruang Tunggu"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-purple-300 text-xs font-semibold transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#EEF6FE] hover:bg-[#EEF6FE]/80 border border-[#1A73E8]/20 text-[#1A73E8] text-xs font-bold transition-all shadow-sm group"
           >
-            <Tv className="w-3.5 h-3.5" />
+            <Tv className="w-3.5 h-3.5 text-[#1A73E8] group-hover:scale-110 transition-transform" />
             <span className="hidden sm:inline">Layar TV</span>
           </Link>
 
-          {/* Manual Refresh Button */}
+          {/* Refresh Button */}
           {onRefresh && (
             <button
               type="button"
               onClick={handleRefreshClick}
-              title="Perbarui Data Kasir & Antrean"
-              aria-label="Refresh"
-              className="p-2 rounded-xl bg-[var(--background)] hover:bg-[var(--surface-hover)] border border-[var(--border)] text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-all cursor-pointer"
+              aria-label="Refresh Data POS"
+              className="p-2 rounded-full bg-[#F6F5F2] hover:bg-[#EFECE6] border border-[#E8E5DE] text-[#706E68] hover:text-[#1A1A1A] transition-all cursor-pointer"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRotating ? "animate-spin text-[var(--primary)]" : ""}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isRotating ? "animate-spin text-[#1A1A1A]" : ""}`} />
             </button>
           )}
         </div>

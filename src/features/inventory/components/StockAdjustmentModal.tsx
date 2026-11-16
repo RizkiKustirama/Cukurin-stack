@@ -85,32 +85,32 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4">
-      <div className="w-full max-w-md bg-[#18181B] text-[#F4F4F5] border border-amber-900/40 rounded-t-2xl sm:rounded-2xl shadow-2xl p-5 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-200">
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm p-0 sm:p-4">
+      <div className="w-full max-w-md bg-white text-[#1A1A1A] border border-[#E8E5DE] rounded-t-3xl sm:rounded-3xl shadow-xl p-5 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="flex items-center justify-between border-b border-[#E8E5DE] pb-4 mb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-full bg-[#EEF6FE] text-[#1A73E8] flex items-center justify-center font-bold">
               <Boxes className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-zinc-100">Penyesuaian Stok Gudang</h3>
-              <p className="text-xs text-zinc-400 truncate max-w-[240px]">
+              <h3 className="text-base font-bold text-[#1A1A1A]">Penyesuaian Stok Gudang</h3>
+              <p className="text-xs text-[#706E68] truncate max-w-[240px]">
                 {product.name}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-400 hover:text-zinc-200 text-sm font-semibold p-1"
+            className="text-[#706E68] hover:text-[#1A1A1A] text-sm font-semibold p-1"
           >
             ✕
           </button>
         </div>
 
         {/* Current Stock Banner */}
-        <div className="bg-zinc-900/90 border border-zinc-800 rounded-xl p-3 mb-4 flex items-center justify-between">
-          <span className="text-xs text-zinc-400">Sisa Stok Fisik Saat Ini:</span>
-          <span className="text-sm font-black text-amber-400">
+        <div className="bg-[#F6F5F2] border border-[#E8E5DE] rounded-2xl p-3 mb-4 flex items-center justify-between">
+          <span className="text-xs text-[#706E68]">Sisa Stok Fisik Saat Ini:</span>
+          <span className="text-sm font-black text-[#1A1A1A]">
             {product.stockQuantity} pcs
           </span>
         </div>
@@ -118,44 +118,44 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Arah Penyesuaian (Masuk vs Keluar) */}
           <div>
-            <label className="text-xs font-semibold text-zinc-300 block mb-1.5">
+            <label className="text-xs font-semibold text-[#1A1A1A] block mb-1.5">
               Tipe Penyesuaian:
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => setDirection("IN")}
-                className={`py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                className={`py-2 px-3 rounded-full border text-xs font-bold flex items-center justify-center gap-1.5 transition ${
                   direction === "IN"
-                    ? "bg-emerald-600 text-white border-emerald-500 shadow-sm"
-                    : "bg-zinc-900 text-zinc-400 border-zinc-800 hover:bg-zinc-800"
+                    ? "bg-[#111111] text-white border-[#111111] shadow-xs"
+                    : "bg-[#F6F5F2] text-[#706E68] border-[#E8E5DE] hover:bg-[#EFECE6]"
                 }`}
               >
-                <ArrowDownRight className="w-4 h-4 text-emerald-300" /> Barang Masuk (+)
+                <ArrowDownRight className="w-4 h-4 text-[#1E8E3E]" /> Barang Masuk (+)
               </button>
               <button
                 type="button"
                 onClick={() => setDirection("OUT")}
-                className={`py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                className={`py-2 px-3 rounded-full border text-xs font-bold flex items-center justify-center gap-1.5 transition ${
                   direction === "OUT"
-                    ? "bg-rose-600 text-white border-rose-500 shadow-sm"
-                    : "bg-zinc-900 text-zinc-400 border-zinc-800 hover:bg-zinc-800"
+                    ? "bg-[#D93025] text-white border-[#D93025] shadow-xs"
+                    : "bg-[#F6F5F2] text-[#706E68] border-[#E8E5DE] hover:bg-[#EFECE6]"
                 }`}
               >
-                <ArrowUpRight className="w-4 h-4 text-rose-300" /> Barang Keluar (-)
+                <ArrowUpRight className="w-4 h-4 text-white" /> Barang Keluar (-)
               </button>
             </div>
           </div>
 
           {/* Alasan */}
           <div>
-            <label className="text-xs font-semibold text-zinc-300 block mb-1">
+            <label className="text-xs font-semibold text-[#1A1A1A] block mb-1">
               Alasan Penyesuaian:
             </label>
             <select
               value={reason}
               onChange={(e) => handleReasonChange(e.target.value as AdjustmentReason)}
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-100 font-semibold focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl px-3 py-2 text-xs text-[#1A1A1A] font-semibold focus:outline-none focus:border-[#111111] transition"
             >
               {REASONS.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -167,7 +167,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
           {/* Jumlah */}
           <div>
-            <label className="text-xs font-semibold text-zinc-300 block mb-1">
+            <label className="text-xs font-semibold text-[#1A1A1A] block mb-1">
               Jumlah Unit (pcs):
             </label>
             <input
@@ -177,16 +177,16 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
               onChange={(e) =>
                 setQuantity(Math.max(1, parseInt(e.target.value, 10) || 0))
               }
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2.5 text-base font-bold text-zinc-100 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl px-3 py-2.5 text-base font-bold text-[#1A1A1A] focus:outline-none focus:border-[#111111] transition"
             />
           </div>
 
           {/* Projected Stock Preview */}
-          <div className="p-3 bg-zinc-900/60 border border-zinc-800 rounded-xl flex items-center justify-between text-xs">
-            <span className="text-zinc-400">Estimasi Sisa Stok Akhir:</span>
+          <div className="p-3 bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl flex items-center justify-between text-xs">
+            <span className="text-[#706E68]">Estimasi Sisa Stok Akhir:</span>
             <span
               className={`font-black ${
-                projectedStock < 0 ? "text-rose-400" : "text-emerald-400"
+                projectedStock < 0 ? "text-[#D93025]" : "text-[#1E8E3E]"
               }`}
             >
               {projectedStock} pcs
@@ -195,7 +195,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
           {/* Catatan / No Surat Jalan */}
           <div>
-            <label className="text-xs font-semibold text-zinc-300 block mb-1">
+            <label className="text-xs font-semibold text-[#1A1A1A] block mb-1">
               Catatan / No. Surat Jalan / Faktur:
             </label>
             <input
@@ -203,12 +203,12 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Contoh: Restock Faktur #INV-9921 dari PT Distributor"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-200 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl px-3 py-2 text-xs text-[#1A1A1A] placeholder:text-[#A8A59E] focus:outline-none focus:border-[#111111] transition"
             />
           </div>
 
           {errorMessage && (
-            <div className="p-3 rounded-lg bg-rose-950/50 border border-rose-800/60 text-rose-300 text-xs flex items-start gap-2">
+            <div className="p-3 rounded-xl bg-[#FDF0F2] border border-[#FECDD3] text-[#D93025] text-xs flex items-start gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
@@ -219,14 +219,14 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="flex-1 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition"
+              className="flex-1 py-2.5 rounded-full border border-[#E8E5DE] bg-white hover:bg-[#F6F5F2] text-[#706E68] text-xs font-semibold transition"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isSubmitting || quantity <= 0 || projectedStock < 0}
-              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white text-xs font-bold shadow-lg shadow-blue-950 transition flex items-center justify-center gap-1.5"
+              className="flex-1 py-2.5 rounded-full bg-[#111111] hover:bg-[#222222] disabled:bg-[#E8E5DE] disabled:text-[#A8A59E] text-white text-xs font-bold shadow-xs transition flex items-center justify-center gap-1.5"
             >
               {isSubmitting ? "Menyimpan..." : "Sesuaikan Stok"}
             </button>

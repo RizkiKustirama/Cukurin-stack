@@ -107,43 +107,40 @@ export function PublicQueueDisplay({
   const upcomingQueue = queue.slice(1);
 
   return (
-    <div className="min-h-screen bg-[#141210] text-[#f5f4f0] p-4 sm:p-6 md:p-8 flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+    <div className="min-h-screen bg-[#F6F5F2] text-[#1A1A1A] p-4 sm:p-6 md:p-8 flex flex-col justify-between selection:bg-[#111111] selection:text-white">
       {/* Top Header Bar for Smart TV */}
-      <header className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-6 bg-[#1f1c18] border border-[#38332c] rounded-3xl shadow-2xl relative overflow-hidden">
-        {/* Glow accent */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
-
+      <header className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-6 bg-white border border-[#E8E5DE] rounded-3xl shadow-[0_1px_3px_rgba(28,25,23,0.02)] relative overflow-hidden">
         <div className="flex items-center gap-4 relative z-10">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#FFF5EB] border border-[#FDE6D2] flex items-center justify-center text-[#D97706] shrink-0">
             <Scissors className="w-8 h-8 -rotate-45" />
           </div>
           <div>
             <div className="flex items-center gap-2.5">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white uppercase">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-[#1A1A1A] uppercase">
                 {storeName}
               </h1>
-              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FEF3EB] text-[#D97706] border border-[#FDE6D2]">
                 LIVE QUEUE
               </span>
             </div>
-            <p className="text-xs sm:text-sm text-[#a39e93] flex items-center gap-1.5 mt-1 font-medium">
-              <Store className="w-4 h-4 text-amber-500" />
+            <p className="text-xs sm:text-sm text-[#706E68] flex items-center gap-1.5 mt-1 font-medium">
+              <Store className="w-4 h-4 text-[#D97706]" />
               <span>Display Antrean Ruang Tunggu Barbershop</span>
             </p>
           </div>
         </div>
 
         {/* Right: Big Clock & Fullscreen Toggle */}
-        <div className="flex items-center gap-4 sm:gap-6 relative z-10 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-[#38332c] pt-3 sm:pt-0">
+        <div className="flex items-center gap-4 sm:gap-6 relative z-10 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-[#E8E5DE] pt-3 sm:pt-0">
           <div className="text-left sm:text-right">
-            <p className="text-xs sm:text-sm text-[#a39e93] font-medium tracking-wide">
+            <p className="text-xs sm:text-sm text-[#706E68] font-medium tracking-wide">
               {currentDate || "Hari Ini"}
             </p>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl sm:text-4xl md:text-5xl font-mono font-black text-amber-400 tracking-wider">
+              <span className="text-2xl sm:text-4xl md:text-5xl font-mono font-black text-[#1A1A1A] tracking-wider">
                 {currentTime || "00:00:00"}
               </span>
-              <span className="text-xs font-bold text-amber-400/80">WIB</span>
+              <span className="text-xs font-bold text-[#706E68]">WIB</span>
             </div>
           </div>
 
@@ -151,7 +148,7 @@ export function PublicQueueDisplay({
             type="button"
             onClick={toggleFullscreen}
             aria-label="Toggle Fullscreen Smart TV"
-            className="p-3 rounded-2xl bg-[#292520] hover:bg-[#38332c] border border-[#443e35] text-[#a39e93] hover:text-white transition-all cursor-pointer shadow-lg"
+            className="p-3 rounded-2xl bg-[#F6F5F2] hover:bg-[#EFECE6] border border-[#E8E5DE] text-[#1A1A1A] transition-all cursor-pointer shadow-xs"
           >
             {isFullscreen ? (
               <Minimize2 className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -168,12 +165,12 @@ export function PublicQueueDisplay({
         <div className="lg:col-span-6 xl:col-span-6 flex flex-col space-y-4">
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-2.5">
-              <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-              <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-white">
+              <div className="w-3 h-3 rounded-full bg-[#1E8E3E] animate-pulse" />
+              <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-[#1A1A1A]">
                 Status Meja Barber
               </h2>
             </div>
-            <span className="text-xs font-mono font-bold text-[#a39e93] bg-[#1f1c18] px-3 py-1 rounded-full border border-[#38332c]">
+            <span className="text-xs font-mono font-bold text-[#706E68] bg-white px-3 py-1 rounded-full border border-[#E8E5DE]">
               {stations.length} MEJA
             </span>
           </div>
@@ -187,26 +184,26 @@ export function PublicQueueDisplay({
               return (
                 <div
                   key={st.chairNumber}
-                  className={`p-5 rounded-3xl border flex flex-col justify-between transition-all duration-300 relative overflow-hidden ${
+                  className={`p-5 rounded-3xl border flex flex-col justify-between transition-all duration-300 relative overflow-hidden bg-white shadow-[0_1px_3px_rgba(28,25,23,0.02)] ${
                     isBusy
-                      ? "bg-gradient-to-br from-[#241c1b] to-[#1f1c18] border-rose-500/50 shadow-xl shadow-rose-950/30"
+                      ? "border-[#FCDAD7] ring-1 ring-[#FCDAD7]"
                       : isReady
-                      ? "bg-gradient-to-br from-[#1a231f] to-[#1f1c18] border-emerald-500/40 shadow-xl shadow-emerald-950/20"
-                      : "bg-[#1f1c18] border-[#38332c] opacity-80"
+                      ? "border-[#CEEAD6] ring-1 ring-[#CEEAD6]"
+                      : "border-[#E8E5DE] opacity-90"
                   }`}
                 >
                   {/* Top: Chair number & Barber Name */}
                   <div>
-                    <div className="flex items-center justify-between border-b border-[#38332c]/70 pb-3">
+                    <div className="flex items-center justify-between border-b border-[#E8E5DE] pb-3">
                       <div className="flex items-center gap-2.5">
-                        <span className="w-9 h-9 rounded-xl bg-[#141210] border border-[#38332c] flex items-center justify-center font-mono font-black text-sm text-amber-400">
+                        <span className="w-9 h-9 rounded-xl bg-[#F6F5F2] border border-[#E8E5DE] flex items-center justify-center font-mono font-black text-sm text-[#1A1A1A]">
                           #{st.chairNumber}
                         </span>
                         <div>
-                          <h3 className="text-base font-bold text-white truncate">
+                          <h3 className="text-base font-bold text-[#1A1A1A] truncate">
                             {st.barberName}
                           </h3>
-                          <p className="text-xs text-[#a39e93]">
+                          <p className="text-xs text-[#706E68]">
                             Meja {st.chairNumber}
                           </p>
                         </div>
@@ -214,22 +211,22 @@ export function PublicQueueDisplay({
 
                       {/* Status Badge */}
                       {isBusy ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/40 uppercase tracking-wider">
-                          <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#FDF0F2] text-[#D93025] border border-[#FCDAD7] uppercase tracking-wider">
+                          <span className="w-2 h-2 rounded-full bg-[#D93025] animate-ping" />
                           Mencukur
                         </span>
                       ) : isReady ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase tracking-wider">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-[#E8F7EE] text-[#1E8E3E] border border-[#CEEAD6] uppercase tracking-wider">
                           <Sparkles className="w-3.5 h-3.5" />
                           Meja Siap
                         </span>
                       ) : isBreak ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase tracking-wider">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-[#FEF3EB] text-[#D97706] border border-[#FDE6D2] uppercase tracking-wider">
                           <Coffee className="w-3.5 h-3.5" />
                           Istirahat
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-zinc-500/20 text-zinc-300 border border-zinc-500/40 uppercase tracking-wider">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-[#F6F5F2] text-[#706E68] border border-[#E8E5DE] uppercase tracking-wider">
                           Offline
                         </span>
                       )}
@@ -239,34 +236,34 @@ export function PublicQueueDisplay({
                     <div className="py-4">
                       {isBusy && st.customerName ? (
                         <div className="space-y-1.5">
-                          <p className="text-[11px] font-bold text-rose-300 uppercase tracking-wider">
+                          <p className="text-[11px] font-bold text-[#D93025] uppercase tracking-wider">
                             Sedang Melayani:
                           </p>
                           <div className="flex items-center gap-2">
                             {st.ticketNumber && (
-                              <span className="px-2 py-0.5 rounded-lg font-mono font-black text-sm bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                              <span className="px-2 py-0.5 rounded-lg font-mono font-black text-sm bg-[#FDF0F2] text-[#D93025] border border-[#FCDAD7]">
                                 #{st.ticketNumber}
                               </span>
                             )}
-                            <h4 className="text-xl sm:text-2xl font-black text-white truncate">
+                            <h4 className="text-xl sm:text-2xl font-black text-[#1A1A1A] truncate">
                               {st.customerName}
                             </h4>
                           </div>
-                          <p className="text-xs text-[#a39e93] font-medium truncate mt-1">
+                          <p className="text-xs text-[#706E68] font-medium truncate mt-1">
                             {st.serviceName || "Paket Potong Rambut"}
                           </p>
                         </div>
                       ) : isReady ? (
                         <div className="py-2 space-y-1">
-                          <p className="text-base font-bold text-emerald-400">
+                          <p className="text-base font-bold text-[#1E8E3E]">
                             Kursi Kosong
                           </p>
-                          <p className="text-xs text-[#a39e93]">
+                          <p className="text-xs text-[#706E68]">
                             Silakan masuk bagi nomor panggilan berikutnya.
                           </p>
                         </div>
                       ) : (
-                        <div className="py-2 text-xs text-[#a39e93]">
+                        <div className="py-2 text-xs text-[#706E68]">
                           Meja sedang tidak beroperasi
                         </div>
                       )}
@@ -274,9 +271,9 @@ export function PublicQueueDisplay({
                   </div>
 
                   {/* Bottom: Progress info */}
-                  <div className="pt-2 border-t border-[#38332c]/50 text-xs text-[#a39e93] flex items-center justify-between">
+                  <div className="pt-2 border-t border-[#E8E5DE] text-xs text-[#706E68] flex items-center justify-between">
                     <span>Estimasi Durasi</span>
-                    <span className="font-mono font-bold text-white">~30 Menit</span>
+                    <span className="font-mono font-bold text-[#1A1A1A]">~30 Menit</span>
                   </div>
                 </div>
               );
@@ -288,44 +285,44 @@ export function PublicQueueDisplay({
         <div className="lg:col-span-6 xl:col-span-6 flex flex-col space-y-4">
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-2.5">
-              <Users className="w-5 h-5 text-amber-400" />
-              <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-white">
+              <Users className="w-5 h-5 text-[#D97706]" />
+              <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-[#1A1A1A]">
                 Daftar Antrean (Next in Line)
               </h2>
             </div>
-            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/15 px-3 py-1 rounded-full border border-amber-500/30">
+            <span className="text-xs font-mono font-bold text-[#D97706] bg-[#FEF3EB] px-3 py-1 rounded-full border border-[#FDE6D2]">
               {queue.length} MENUNGGU
             </span>
           </div>
 
           {/* Next Ticket Spotlight (Huge visibility from 3-5 meters) */}
           {nextInLine ? (
-            <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-amber-600/25 via-[#292218] to-[#1f1c18] border-2 border-amber-500 shadow-2xl shadow-amber-950/40 relative overflow-hidden">
-              <div className="absolute top-2 right-4 text-[10px] sm:text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30">
+            <div className="p-6 sm:p-7 rounded-3xl bg-white border-2 border-[#111111] shadow-xl relative overflow-hidden">
+              <div className="absolute top-2 right-4 text-[10px] sm:text-xs font-black uppercase tracking-widest text-white bg-[#111111] px-3 py-1 rounded-full">
                 PANGGILAN BERIKUTNYA • NEXT
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
                 <div className="flex items-center gap-5">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-amber-500 text-stone-950 flex flex-col items-center justify-center font-mono font-black shadow-xl shadow-amber-500/40 shrink-0">
-                    <span className="text-[10px] font-sans font-bold tracking-wider uppercase">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#111111] text-white flex flex-col items-center justify-center font-mono font-black shadow-md shrink-0">
+                    <span className="text-[10px] font-sans font-bold tracking-wider uppercase text-stone-300">
                       NO TIKET
                     </span>
-                    <span className="text-3xl sm:text-4xl font-black leading-none mt-1">
+                    <span className="text-3xl sm:text-4xl font-black leading-none mt-1 text-white">
                       {nextInLine.ticketNumber}
                     </span>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+                    <span className="text-xs font-bold text-[#D97706] uppercase tracking-wider">
                       Siap-siap Dipanggil:
                     </span>
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#1A1A1A] tracking-tight">
                       {nextInLine.customerName}
                     </h3>
-                    <p className="text-xs sm:text-sm text-[#a39e93]">
+                    <p className="text-xs sm:text-sm text-[#706E68]">
                       {nextInLine.serviceName} •{" "}
-                      <span className="text-purple-300 font-medium">
+                      <span className="text-[#1A73E8] font-semibold">
                         {nextInLine.requestedBarber
                           ? `Req: ${nextInLine.requestedBarber}`
                           : "Barber: Bebas"}
@@ -334,23 +331,23 @@ export function PublicQueueDisplay({
                   </div>
                 </div>
 
-                <div className="text-left sm:text-right shrink-0 bg-[#141210]/60 p-3 sm:p-4 rounded-2xl border border-[#38332c]">
-                  <p className="text-[11px] text-[#a39e93] font-medium uppercase">
+                <div className="text-left sm:text-right shrink-0 bg-[#F6F5F2] p-3 sm:p-4 rounded-2xl border border-[#E8E5DE]">
+                  <p className="text-[11px] text-[#706E68] font-medium uppercase">
                     Waktu Menunggu
                   </p>
-                  <div className="text-xl sm:text-2xl font-mono font-black text-amber-400">
+                  <div className="text-xl sm:text-2xl font-mono font-black text-[#1A1A1A]">
                     ~{nextInLine.waitingMinutes} Mnt
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="p-8 rounded-3xl bg-[#1f1c18] border border-[#38332c] text-center space-y-2">
-              <Users className="w-12 h-12 text-[#a39e93] mx-auto opacity-40" />
-              <h3 className="text-lg font-bold text-white">
+            <div className="p-8 rounded-3xl bg-white border border-[#E8E5DE] text-center space-y-2 shadow-[0_1px_3px_rgba(28,25,23,0.02)]">
+              <Users className="w-12 h-12 text-[#A8A59E] mx-auto opacity-40" />
+              <h3 className="text-lg font-bold text-[#1A1A1A]">
                 Tidak Ada Antrean Menunggu
               </h3>
-              <p className="text-xs sm:text-sm text-[#a39e93] max-w-sm mx-auto">
+              <p className="text-xs sm:text-sm text-[#706E68] max-w-sm mx-auto">
                 Ruang tunggu sedang kosong. Silakan mendaftar di meja kasir untuk langsung potong rambut.
               </p>
             </div>
@@ -361,11 +358,11 @@ export function PublicQueueDisplay({
             {upcomingQueue.map((item, idx) => (
               <div
                 key={item.ticketNumber}
-                className="p-4 rounded-2xl bg-[#1f1c18] hover:bg-[#28241f] border border-[#38332c] flex items-center justify-between gap-4 transition-all"
+                className="p-4 rounded-2xl bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] flex items-center justify-between gap-4 transition-all shadow-[0_1px_3px_rgba(28,25,23,0.02)]"
               >
                 <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="w-12 h-12 rounded-xl bg-[#2b2620] border border-[#443e35] flex flex-col items-center justify-center font-mono font-black text-amber-300 shrink-0">
-                    <span className="text-[9px] text-[#a39e93] leading-none uppercase">
+                  <div className="w-12 h-12 rounded-xl bg-[#F6F5F2] border border-[#E8E5DE] flex flex-col items-center justify-center font-mono font-black text-[#1A1A1A] shrink-0">
+                    <span className="text-[9px] text-[#706E68] leading-none uppercase">
                       #{idx + 2}
                     </span>
                     <span className="text-base font-bold leading-none mt-1">
@@ -374,12 +371,12 @@ export function PublicQueueDisplay({
                   </div>
 
                   <div className="min-w-0">
-                    <h4 className="text-base sm:text-lg font-bold text-white truncate">
+                    <h4 className="text-base sm:text-lg font-bold text-[#1A1A1A] truncate">
                       {item.customerName}
                     </h4>
-                    <p className="text-xs text-[#a39e93] truncate">
+                    <p className="text-xs text-[#706E68] truncate">
                       {item.serviceName} •{" "}
-                      <span className="text-purple-300">
+                      <span className="text-[#1A73E8]">
                         {item.requestedBarber
                           ? `Req: ${item.requestedBarber}`
                           : "Barber: Bebas"}
@@ -389,8 +386,8 @@ export function PublicQueueDisplay({
                 </div>
 
                 <div className="text-right shrink-0">
-                  <div className="flex items-center gap-1 text-xs font-mono font-semibold text-[#a39e93]">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <div className="flex items-center gap-1 text-xs font-mono font-semibold text-[#706E68] bg-[#F6F5F2] px-2.5 py-1 rounded-full border border-[#E8E5DE]">
+                    <Clock className="w-3.5 h-3.5 text-[#D97706]" />
                     <span>~{item.waitingMinutes} mnt</span>
                   </div>
                 </div>
@@ -401,13 +398,13 @@ export function PublicQueueDisplay({
       </main>
 
       {/* Footer Branding for TV Display */}
-      <footer className="pt-4 border-t border-[#38332c] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#a39e93]">
+      <footer className="pt-4 border-t border-[#E8E5DE] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#706E68]">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#1E8E3E] animate-pulse" />
           <span>Sistem Sinkronisasi Antrean Otomatis Aktif (Auto-Refresh)</span>
         </div>
-        <p className="font-semibold text-white/80">
-          Powered by <strong className="text-amber-400">Cukurin.app</strong> — Smart Barbershop Engine
+        <p className="font-semibold text-[#1A1A1A]">
+          Powered by <strong className="text-[#D97706]">Cukurin.app</strong> — Smart Barbershop Engine
         </p>
       </footer>
     </div>

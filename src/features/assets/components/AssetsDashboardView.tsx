@@ -58,14 +58,14 @@ export const AssetsDashboardView: React.FC<AssetsDashboardViewProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-black text-zinc-100">
+            <h1 className="text-xl sm:text-2xl font-black text-[#1A1A1A]">
               Pelacak Aset & Alat Kerja
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#EEF6FE] text-[#1A73E8] border border-[#BAE6FD]/50">
               Inventaris Mesin
             </span>
           </div>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs text-[#706E68] mt-1">
             Pengawasan alat kerja berharga (Clipper, Gunting, Dryer), nomor seri, penanggung jawab meja, dan kondisi fisik.
           </p>
         </div>
@@ -76,7 +76,7 @@ export const AssetsDashboardView: React.FC<AssetsDashboardViewProps> = ({
             setSelectedAssetForEdit(null);
             setShowAddModal(true);
           }}
-          className="py-2.5 px-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold shadow-lg shadow-cyan-950 transition flex items-center gap-1.5 self-start sm:self-auto"
+          className="py-2.5 px-4 rounded-full bg-[#111111] hover:bg-[#222222] text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5 self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Daftarkan Alat Baru</span>

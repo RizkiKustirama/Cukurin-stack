@@ -150,28 +150,28 @@ export function PaymentModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      <div className="relative w-full max-w-lg bg-[#181614] border border-[#38332c] rounded-3xl shadow-2xl flex flex-col z-10 overflow-hidden max-h-[90vh]">
+      <div className="relative w-full max-w-lg bg-white border border-[#E8E5DE] rounded-[24px] shadow-2xl flex flex-col z-10 overflow-hidden max-h-[90vh]">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-[#2c2823] flex items-center justify-between shrink-0 bg-[#221f1b]/60">
+        <div className="px-6 py-4 border-b border-[#E8E5DE] flex items-center justify-between shrink-0 bg-white">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
+            <div className="w-10 h-10 rounded-xl bg-[#FFF5EB] border border-[#FDE6D2] flex items-center justify-center text-[#D97706]">
               <Receipt className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-stone-100 flex items-center gap-2">
+              <h3 className="text-base font-bold text-[#1A1A1A] flex items-center gap-2">
                 <span>Pelunasan Kasir</span>
                 {ticketNumber && (
-                  <span className="text-xs font-mono font-normal px-2 py-0.5 rounded bg-stone-800 text-amber-400">
+                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-[#F6F5F2] border border-[#E8E5DE] text-[#1A1A1A]">
                     {ticketNumber}
                   </span>
                 )}
               </h3>
-              <p className="text-xs text-stone-400">
+              <p className="text-xs text-[#706E68]">
                 Selesaikan pembayaran tiket dan cetak bukti transaksi
               </p>
             </div>
@@ -180,7 +180,7 @@ export function PaymentModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#221f1b] hover:bg-stone-800 text-stone-400 hover:text-stone-100 flex items-center justify-center transition"
+            className="w-8 h-8 rounded-full bg-[#F6F5F2] hover:bg-[#EFECE6] text-[#706E68] hover:text-[#1A1A1A] flex items-center justify-center transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -189,20 +189,20 @@ export function PaymentModal({
         {/* Body Content */}
         <div className="p-6 overflow-y-auto space-y-5">
           {isLoadingDetails ? (
-            <div className="py-16 flex flex-col items-center justify-center text-stone-400 space-y-2">
-              <Loader2 className="w-8 h-8 animate-spin text-amber-500" />
+            <div className="py-16 flex flex-col items-center justify-center text-[#706E68] space-y-2">
+              <Loader2 className="w-8 h-8 animate-spin text-[#D97706]" />
               <p className="text-sm">Memuat data tiket transaksi...</p>
             </div>
           ) : isSuccess ? (
             <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 animate-in zoom-in-75">
+              <div className="w-16 h-16 rounded-full bg-[#E8F7EE] border border-[#CEEAD6] flex items-center justify-center text-[#1E8E3E] animate-in zoom-in-75">
                 <Check className="w-8 h-8 stroke-[3]" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-lg font-bold text-stone-100">
+                <h4 className="text-lg font-bold text-[#1A1A1A]">
                   Pembayaran Berhasil Dilunasi!
                 </h4>
-                <p className="text-xs text-stone-400 max-w-xs mx-auto">
+                <p className="text-xs text-[#706E68] max-w-xs mx-auto">
                   Tiket {ticketNumber} telah berstatus Lunas (PAID). Laci kasir telah
                   diperbarui.
                 </p>
@@ -212,7 +212,7 @@ export function PaymentModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm transition"
+                  className="flex-1 py-3 px-4 rounded-full bg-[#111111] hover:bg-black text-white font-bold text-sm transition shadow-sm cursor-pointer"
                 >
                   Selesai & Tutup
                 </button>
@@ -221,29 +221,29 @@ export function PaymentModal({
           ) : activeTicket ? (
             <>
               {errorMessage && (
-                <div className="flex items-center gap-2.5 p-3 bg-rose-950/50 border border-rose-800 text-rose-200 text-xs rounded-xl">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                <div className="flex items-center gap-2.5 p-3 bg-[#FDF0F2] border border-[#FCDAD7] text-[#D93025] text-xs rounded-xl">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-[#D93025]" />
                   <span>{errorMessage}</span>
                 </div>
               )}
 
               {/* Rincian Pelanggan & Barber */}
-              <div className="grid grid-cols-2 gap-3 p-3 bg-[#221f1b] border border-[#38332c] rounded-2xl text-xs">
+              <div className="grid grid-cols-2 gap-3 p-3.5 bg-[#F6F5F2] border border-[#E8E5DE] rounded-2xl text-xs">
                 <div>
-                  <span className="text-stone-500 block mb-0.5">Pelanggan:</span>
-                  <div className="font-semibold text-stone-200 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-amber-500" />
+                  <span className="text-[#706E68] block mb-0.5">Pelanggan:</span>
+                  <div className="font-semibold text-[#1A1A1A] flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-[#D97706]" />
                     <span>{customerName}</span>
                   </div>
                   {customerPhone && (
-                    <span className="text-[11px] text-stone-400">{customerPhone}</span>
+                    <span className="text-[11px] text-[#706E68]">{customerPhone}</span>
                   )}
                 </div>
 
                 <div>
-                  <span className="text-stone-500 block mb-0.5">Barber:</span>
-                  <div className="font-semibold text-stone-200 flex items-center gap-1.5">
-                    <Scissors className="w-3.5 h-3.5 text-amber-500" />
+                  <span className="text-[#706E68] block mb-0.5">Barber:</span>
+                  <div className="font-semibold text-[#1A1A1A] flex items-center gap-1.5">
+                    <Scissors className="w-3.5 h-3.5 text-[#D97706]" />
                     <span>{barberName}</span>
                   </div>
                 </div>
@@ -251,39 +251,39 @@ export function PaymentModal({
 
               {/* Daftar Item Tiket */}
               <div className="space-y-2">
-                <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider block">
+                <span className="text-xs font-semibold text-[#706E68] uppercase tracking-wider block">
                   Rincian Pesanan
                 </span>
-                <div className="divide-y divide-[#2c2823] bg-[#221f1b] border border-[#38332c] rounded-2xl px-3.5 py-1">
+                <div className="divide-y divide-[#E8E5DE] bg-white border border-[#E8E5DE] rounded-2xl px-3.5 py-1 shadow-2xs">
                   {items.map((item, idx) => (
                     <div
                       key={idx}
                       className="py-2.5 flex items-center justify-between text-xs"
                     >
                       <div>
-                        <span className="font-semibold text-stone-200">
+                        <span className="font-semibold text-[#1A1A1A]">
                           {item.name}
                         </span>
-                        <span className="text-stone-500 ml-1.5">
+                        <span className="text-[#706E68] ml-1.5">
                           x{item.quantity}
                         </span>
                       </div>
-                      <span className="font-bold text-stone-200">
+                      <span className="font-bold text-[#1A1A1A] font-mono">
                         {formatRupiah(item.price * item.quantity)}
                       </span>
                     </div>
                   ))}
 
-                  <div className="py-2.5 flex items-center justify-between text-xs font-semibold text-stone-300">
+                  <div className="py-2.5 flex items-center justify-between text-xs font-semibold text-[#1A1A1A]">
                     <span>Subtotal</span>
-                    <span>{formatRupiah(subtotal)}</span>
+                    <span className="font-mono font-bold">{formatRupiah(subtotal)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Input Tip Barber */}
               <div className="space-y-2">
-                <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider block">
+                <span className="text-xs font-semibold text-[#706E68] uppercase tracking-wider block">
                   Tip Barber (100% Hak Barber)
                 </span>
                 <div className="flex items-center gap-2">
@@ -292,10 +292,10 @@ export function PaymentModal({
                       key={amt}
                       type="button"
                       onClick={() => setTipAmount(amt)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold border transition cursor-pointer ${
                         tipAmount === amt
-                          ? "bg-amber-500 text-stone-950 border-amber-400"
-                          : "bg-[#221f1b] border-[#38332c] text-stone-300 hover:border-stone-500"
+                          ? "bg-[#111111] text-white border-[#111111] shadow-2xs"
+                          : "bg-white border-[#E8E5DE] text-[#706E68] hover:text-[#1A1A1A] hover:bg-[#F6F5F2]"
                       }`}
                     >
                       {amt === 0 ? "Rp 0" : `+${amt / 1000}k`}
@@ -306,7 +306,7 @@ export function PaymentModal({
 
               {/* Pilihan Metode Pembayaran */}
               <div className="space-y-2">
-                <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider block">
+                <span className="text-xs font-semibold text-[#706E68] uppercase tracking-wider block">
                   Pilih Metode Pembayaran
                 </span>
                 <div className="grid grid-cols-4 gap-2">
@@ -323,10 +323,10 @@ export function PaymentModal({
                         key={m.id}
                         type="button"
                         onClick={() => setPaymentMethod(m.id as PaymentMethod)}
-                        className={`flex flex-col items-center justify-center p-3 rounded-2xl border text-center transition ${
+                        className={`flex flex-col items-center justify-center p-3 rounded-2xl border text-center transition cursor-pointer ${
                           isSelected
-                            ? "bg-amber-600 border-amber-500 text-white font-bold shadow-md shadow-amber-950/40"
-                            : "bg-[#221f1b] border-[#38332c] text-stone-400 hover:border-stone-600"
+                            ? "bg-[#FFF5EB] border-[#D97706] text-[#D97706] font-bold ring-1 ring-[#D97706]/30 shadow-2xs"
+                            : "bg-white border-[#E8E5DE] text-[#706E68] hover:border-[#D5D1C8] hover:text-[#1A1A1A]"
                         }`}
                       >
                         <Icon className="w-5 h-5 mb-1" />
@@ -339,13 +339,13 @@ export function PaymentModal({
 
               {/* Kalkulator Tunai */}
               {paymentMethod === "CASH" && (
-                <div className="p-4 bg-[#221f1b] border border-[#38332c] rounded-2xl space-y-3">
-                  <div className="flex justify-between items-center text-xs text-stone-400">
+                <div className="p-4 bg-[#F6F5F2] border border-[#E8E5DE] rounded-2xl space-y-3">
+                  <div className="flex justify-between items-center text-xs text-[#706E68]">
                     <span>Uang Diterima dari Pelanggan:</span>
                     <button
                       type="button"
                       onClick={() => setCashTendered(totalAmount)}
-                      className="text-amber-400 hover:underline font-semibold"
+                      className="text-[#D97706] hover:underline font-semibold cursor-pointer"
                     >
                       [ Uang Pas ]
                     </button>
@@ -356,27 +356,27 @@ export function PaymentModal({
                     value={cashTendered || ""}
                     onChange={(e) => setCashTendered(Number(e.target.value) || 0)}
                     placeholder={totalAmount.toString()}
-                    className="w-full px-4 py-2.5 bg-[#181614] border border-[#38332c] focus:border-amber-500 rounded-xl text-stone-100 text-base font-bold focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-white border border-[#E8E5DE] focus:border-[#111111] rounded-xl text-[#1A1A1A] text-base font-bold focus:outline-none"
                   />
 
-                  <div className="flex items-center gap-2 pt-0.5">
+                  <div className="flex items-center gap-2 pt-0.5 flex-wrap">
                     {[50000, 100000, 150000, 200000].map((amt) => (
                       <button
                         key={amt}
                         type="button"
                         onClick={() => setCashTendered(amt)}
-                        className="px-2.5 py-1 rounded-lg bg-[#181614] border border-[#38332c] text-stone-300 text-xs hover:border-stone-500 font-semibold transition"
+                        className="px-2.5 py-1 rounded-full bg-white border border-[#E8E5DE] text-[#1A1A1A] text-xs hover:bg-stone-50 font-semibold transition cursor-pointer"
                       >
                         {formatRupiah(amt)}
                       </button>
                     ))}
                   </div>
 
-                  <div className="flex justify-between items-center pt-2 border-t border-[#38332c] text-sm">
-                    <span className="text-stone-400">Kembalian:</span>
+                  <div className="flex justify-between items-center pt-2 border-t border-[#E8E5DE] text-sm">
+                    <span className="text-[#706E68]">Kembalian:</span>
                     <span
-                      className={`font-bold text-base ${
-                        cashChange >= 0 ? "text-emerald-400" : "text-rose-400"
+                      className={`font-bold font-mono text-base ${
+                        cashChange >= 0 ? "text-[#1E8E3E]" : "text-[#D93025]"
                       }`}
                     >
                       {cashChange >= 0
@@ -388,14 +388,14 @@ export function PaymentModal({
               )}
 
               {/* Total Card */}
-              <div className="p-4 bg-amber-950/20 border border-amber-600/40 rounded-2xl flex items-center justify-between">
+              <div className="p-4 bg-[#FFF5EB] border border-[#FDE6D2] rounded-2xl flex items-center justify-between">
                 <div>
-                  <span className="text-xs text-amber-300 block">Total Tagihan</span>
-                  <span className="text-xs text-stone-400">
+                  <span className="text-xs text-[#D97706] font-semibold block">Total Tagihan</span>
+                  <span className="text-xs text-[#706E68]">
                     Subtotal + Tip {tipAmount > 0 && `(${formatRupiah(tipAmount)})`}
                   </span>
                 </div>
-                <span className="text-2xl font-black text-amber-400">
+                <span className="text-2xl font-black font-mono text-[#1A1A1A]">
                   {formatRupiah(totalAmount)}
                 </span>
               </div>
@@ -405,12 +405,12 @@ export function PaymentModal({
 
         {/* Footer Actions */}
         {!isSuccess && activeTicket && (
-          <div className="px-6 py-4 border-t border-[#2c2823] bg-[#221f1b]/60 flex items-center gap-3 shrink-0">
+          <div className="px-6 py-4 border-t border-[#E8E5DE] bg-white flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={onClose}
               disabled={isPending}
-              className="flex-1 py-3 px-4 rounded-xl border border-[#38332c] hover:bg-stone-800 text-stone-300 font-semibold text-sm transition"
+              className="flex-1 py-3 px-4 rounded-full border border-[#E8E5DE] hover:bg-[#F6F5F2] text-[#706E68] font-semibold text-sm transition cursor-pointer"
             >
               Batal
             </button>
@@ -418,7 +418,7 @@ export function PaymentModal({
               type="button"
               onClick={handleSettle}
               disabled={isPending}
-              className="flex-2 py-3 px-6 rounded-xl bg-amber-600 hover:bg-amber-500 active:bg-amber-700 disabled:opacity-50 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-950/50 transition cursor-pointer"
+              className="flex-2 py-3 px-6 rounded-full bg-[#111111] hover:bg-black active:scale-95 disabled:opacity-50 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition cursor-pointer"
             >
               {isPending ? (
                 <>

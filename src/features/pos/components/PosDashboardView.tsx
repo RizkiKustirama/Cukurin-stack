@@ -114,24 +114,24 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
   });
 
   return (
-    <div className="min-h-screen bg-[#181614] pb-24 md:pb-12 text-stone-100 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-[#F6F5F2] pb-24 md:pb-12 text-[#1A1A1A] p-4 sm:p-6 lg:p-8">
       {/* 1. HEADER KASIR */}
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-[#221f1b] border border-[#38332c] rounded-2xl shadow-xl mb-6">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-white border border-[#E8E5DE] rounded-2xl shadow-[0_1px_3px_rgba(28,25,23,0.02)] mb-6">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500">
+          <div className="w-12 h-12 rounded-xl bg-[#FFF5EB] border border-[#FDE6D2] flex items-center justify-center text-[#D97706]">
             <Receipt className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-stone-100">
+              <h1 className="text-xl font-bold text-[#1A1A1A]">
                 POS & Kasir Barbershop
               </h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FFF5EB] text-[#D97706] border border-[#FDE6D2]">
                 {cashierRole}
               </span>
             </div>
-            <p className="text-xs text-stone-400">
-              Cabang: <span className="text-amber-400 font-mono">/{storeSlug}</span> • Kasir: {cashierName}
+            <p className="text-xs text-[#706E68]">
+              Cabang: <span className="text-[#1A1A1A] font-mono font-semibold">/{storeSlug}</span> • Kasir: {cashierName}
             </p>
           </div>
         </div>
@@ -140,35 +140,35 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
           <button
             type="button"
             onClick={handleRefresh}
-            className="p-2.5 rounded-xl bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-xs text-stone-300 font-medium flex items-center gap-1.5 transition"
+            className="p-2.5 rounded-full bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] text-xs text-[#706E68] font-medium flex items-center gap-1.5 transition cursor-pointer"
             title="Muat ulang data"
           >
-            <RefreshCw className="w-4 h-4 text-stone-400" />
+            <RefreshCw className="w-4 h-4 text-[#706E68]" />
             <span className="hidden sm:inline">Refresh</span>
           </button>
 
           {(cashierRole === "OWNER" || cashierRole === "MANAGER") && (
             <Link
               href={`/${storeSlug}/dashboard`}
-              className="px-3.5 py-2.5 rounded-xl bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-xs text-stone-200 font-medium flex items-center gap-1.5 transition"
+              className="px-3.5 py-2 rounded-full bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] text-xs text-[#1A1A1A] font-medium flex items-center gap-1.5 transition"
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-amber-500" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-[#D97706]" />
               <span>Dashboard</span>
             </Link>
           )}
 
           <Link
             href={`/${storeSlug}/queue`}
-            className="px-3.5 py-2.5 rounded-xl bg-[#181614] hover:bg-[#2c2823] border border-[#38332c] text-xs text-stone-200 font-medium flex items-center gap-1.5 transition"
+            className="px-3.5 py-2 rounded-full bg-white hover:bg-[#F6F5F2] border border-[#E8E5DE] text-xs text-[#1A73E8] font-medium flex items-center gap-1.5 transition"
           >
-            <Users className="w-3.5 h-3.5 text-purple-400" />
+            <Users className="w-3.5 h-3.5 text-[#1A73E8]" />
             <span>Display Antrean</span>
           </Link>
 
           <Link
             href="/logout"
             prefetch={false}
-            className="px-3.5 py-2.5 rounded-xl bg-red-950/40 hover:bg-red-900/50 border border-red-800/50 text-red-300 text-xs font-medium flex items-center gap-1.5 transition"
+            className="px-3.5 py-2 rounded-full bg-[#FDF0F2] hover:bg-[#FCDAD7] border border-[#FCDAD7] text-[#D93025] text-xs font-medium flex items-center gap-1.5 transition"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Keluar</span>
@@ -179,8 +179,8 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
       {/* 2. BAR STATUS BARBER HORIZONTAL (Swipeable Carousel) */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2.5">
-          <span className="text-xs font-bold uppercase tracking-wider text-stone-400 flex items-center gap-1.5">
-            <Scissors className="w-3.5 h-3.5 text-amber-500" />
+          <span className="text-xs font-bold uppercase tracking-wider text-[#706E68] flex items-center gap-1.5">
+            <Scissors className="w-3.5 h-3.5 text-[#D97706]" />
             <span>Status Meja Barber Hari Ini ({initialBarbers.length})</span>
           </span>
         </div>
@@ -191,35 +191,35 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
             const isBusy = b.workStatus === "BUSY";
             const isBreak = b.workStatus === "BREAK";
 
-            let borderClass = "border-[#38332c]";
-            let badgeBg = "bg-zinc-800 text-zinc-400";
+            let borderClass = "border-[#E8E5DE]";
+            let badgeBg = "bg-[#F6F5F2] text-[#706E68] border-[#E8E5DE]";
             let statusText = "Libur";
 
             if (isReady) {
-              borderClass = "border-emerald-600/50 bg-emerald-950/20";
-              badgeBg = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
-              statusText = "🟢 Siap Cukur";
+              borderClass = "border-[#CEEAD6] bg-[#E8F7EE]/30";
+              badgeBg = "bg-[#E8F7EE] text-[#1E8E3E] border-[#CEEAD6]";
+              statusText = "Siap Cukur";
             } else if (isBusy) {
-              borderClass = "border-rose-600/50 bg-rose-950/20";
-              badgeBg = "bg-rose-500/20 text-rose-300 border-rose-500/40";
-              statusText = "🔴 Sedang Potong";
+              borderClass = "border-[#FCDAD7] bg-[#FDF0F2]/30";
+              badgeBg = "bg-[#FDF0F2] text-[#D93025] border-[#FCDAD7]";
+              statusText = "Sedang Potong";
             } else if (isBreak) {
-              borderClass = "border-amber-600/50 bg-amber-950/20";
-              badgeBg = "bg-amber-500/20 text-amber-300 border-amber-500/40";
-              statusText = "🟡 Istirahat";
+              borderClass = "border-[#FDE6D2] bg-[#FEF3EB]/30";
+              badgeBg = "bg-[#FEF3EB] text-[#D97706] border-[#FDE6D2]";
+              statusText = "Istirahat";
             }
 
             return (
               <div
                 key={b.id}
-                className={`p-3 rounded-2xl border min-w-[155px] sm:min-w-[175px] bg-[#221f1b] flex flex-col justify-between shrink-0 shadow-sm ${borderClass}`}
+                className={`p-3 rounded-2xl border min-w-[155px] sm:min-w-[175px] bg-white flex flex-col justify-between shrink-0 shadow-[0_1px_3px_rgba(28,25,23,0.02)] ${borderClass}`}
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center font-bold text-xs text-amber-400">
+                    <div className="w-7 h-7 rounded-full bg-[#F6F5F2] border border-[#E8E5DE] flex items-center justify-center font-bold text-xs text-[#1A1A1A]">
                       {b.name.charAt(0).toUpperCase()}
                     </div>
-                    <span className="font-bold text-sm text-stone-100 truncate">
+                    <span className="font-bold text-sm text-[#1A1A1A] truncate">
                       {b.name}
                     </span>
                   </div>
@@ -243,17 +243,17 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
         {/* KOLOM KIRI: DAFTAR TIKET TRANSAKSI HARI INI */}
         <div className="lg:col-span-7 space-y-4">
           {/* Filter & Search Bar */}
-          <div className="p-4 bg-[#221f1b] border border-[#38332c] rounded-2xl space-y-3">
+          <div className="p-4 bg-white border border-[#E8E5DE] rounded-2xl shadow-[0_1px_3px_rgba(28,25,23,0.02)] space-y-3">
             <div className="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
               {/* Filter Tabs */}
-              <div className="flex gap-1.5 p-1 bg-[#181614] rounded-xl border border-[#38332c]">
+              <div className="flex gap-1 p-1 bg-[#F6F5F2] rounded-full border border-[#E8E5DE]">
                 <button
                   type="button"
                   onClick={() => setFilterTab("ALL")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
                     filterTab === "ALL"
-                      ? "bg-amber-600 text-white"
-                      : "text-stone-400 hover:text-stone-200"
+                      ? "bg-[#111111] text-white shadow-2xs"
+                      : "text-[#706E68] hover:text-[#1A1A1A]"
                   }`}
                 >
                   Semua ({initialTickets.length})
@@ -261,10 +261,10 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setFilterTab("UNPAID")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
                     filterTab === "UNPAID"
-                      ? "bg-amber-600 text-white"
-                      : "text-stone-400 hover:text-stone-200"
+                      ? "bg-[#111111] text-white shadow-2xs"
+                      : "text-[#706E68] hover:text-[#1A1A1A]"
                   }`}
                 >
                   Belum Lunas (
@@ -273,10 +273,10 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setFilterTab("ACTIVE")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
                     filterTab === "ACTIVE"
-                      ? "bg-amber-600 text-white"
-                      : "text-stone-400 hover:text-stone-200"
+                      ? "bg-[#111111] text-white shadow-2xs"
+                      : "text-[#706E68] hover:text-[#1A1A1A]"
                   }`}
                 >
                   Sedang Antre (
@@ -298,9 +298,9 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cari No. Tiket / Pelanggan..."
-                  className="w-full px-3 py-1.5 pl-8 bg-[#181614] border border-[#38332c] focus:border-amber-500 rounded-xl text-xs text-stone-200 placeholder-stone-600 focus:outline-none transition"
+                  className="w-full px-3 py-1.5 pl-8 bg-[#F6F5F2] border border-[#E8E5DE] focus:border-[#111111] rounded-full text-xs text-[#1A1A1A] placeholder-[#A8A59E] focus:outline-none transition"
                 />
-                <Search className="w-3.5 h-3.5 text-stone-500 absolute left-2.5 top-2.5" />
+                <Search className="w-3.5 h-3.5 text-[#706E68] absolute left-2.5 top-2.5" />
               </div>
             </div>
           </div>
@@ -308,10 +308,10 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
           {/* List Tiket */}
           <div className="space-y-3">
             {filteredTickets.length === 0 ? (
-              <div className="p-10 bg-[#221f1b] border border-[#38332c] rounded-2xl text-center space-y-2 text-stone-400">
-                <Receipt className="w-8 h-8 mx-auto text-stone-600" />
-                <p className="text-sm font-medium">Belum ada transaksi tiket yang cocok.</p>
-                <p className="text-xs text-stone-500">
+              <div className="p-10 bg-white border border-[#E8E5DE] rounded-2xl text-center space-y-2 text-[#706E68] shadow-[0_1px_3px_rgba(28,25,23,0.02)]">
+                <Receipt className="w-8 h-8 mx-auto text-[#A8A59E]" />
+                <p className="text-sm font-medium text-[#1A1A1A]">Belum ada transaksi tiket yang cocok.</p>
+                <p className="text-xs text-[#706E68]">
                   Gunakan tombol &quot;Buat Tiket&quot; untuk memulai transaksi pelanggan baru.
                 </p>
               </div>
@@ -326,45 +326,45 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
                 return (
                   <div
                     key={ticket.id}
-                    className="p-4 bg-[#221f1b] border border-[#38332c] hover:border-stone-600 rounded-2xl shadow-sm transition space-y-3"
+                    className="p-4 bg-white border border-[#E8E5DE] hover:border-[#D5D1C8] rounded-2xl shadow-[0_1px_3px_rgba(28,25,23,0.02)] transition space-y-3"
                   >
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono font-bold text-amber-400 text-sm">
+                          <span className="font-mono font-bold text-[#1A1A1A] text-sm">
                             {ticket.ticketNumber}
                           </span>
                           <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                            className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
                               isPaid
-                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
-                                : "bg-rose-500/20 text-rose-300 border-rose-500/40"
+                                ? "bg-[#E8F7EE] text-[#1E8E3E] border-[#CEEAD6]"
+                                : "bg-[#FEF3EB] text-[#D97706] border-[#FDE6D2]"
                             }`}
                           >
                             {isPaid ? "LUNAS" : "BELUM LUNAS"}
                           </span>
                           <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                            className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
                               isInService
-                                ? "bg-rose-500/20 text-rose-300 border-rose-500/40"
+                                ? "bg-[#FDF0F2] text-[#D93025] border-[#FCDAD7]"
                                 : isWaiting
-                                ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                                ? "bg-[#FEF3EB] text-[#D97706] border-[#FDE6D2]"
                                 : isCompleted
-                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
-                                : "bg-zinc-800 text-zinc-400 border-zinc-700"
+                                ? "bg-[#E8F7EE] text-[#1E8E3E] border-[#CEEAD6]"
+                                : "bg-[#F6F5F2] text-[#706E68] border-[#E8E5DE]"
                             }`}
                           >
                             {ticket.serviceStatus}
                           </span>
                         </div>
 
-                        <div className="mt-1 flex items-center gap-2 text-xs text-stone-300">
-                          <User className="w-3.5 h-3.5 text-stone-500" />
+                        <div className="mt-1 flex items-center gap-2 text-xs text-[#1A1A1A]">
+                          <User className="w-3.5 h-3.5 text-[#706E68]" />
                           <span className="font-semibold">
                             {ticket.customer?.name || "Pelanggan Guest"}
                           </span>
                           {ticket.customer?.phone && (
-                            <span className="text-stone-500">
+                            <span className="text-[#706E68]">
                               • {ticket.customer.phone}
                             </span>
                           )}
@@ -372,39 +372,39 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
                       </div>
 
                       <div className="text-right">
-                        <span className="text-base font-bold text-stone-100 block">
+                        <span className="text-base font-bold text-[#1A1A1A] font-mono block">
                           {formatRupiah(Number(ticket.totalAmount))}
                         </span>
-                        <span className="text-[11px] text-stone-500">
+                        <span className="text-[11px] text-[#706E68]">
                           {formatWIB(ticket.createdAt, { timeStyle: "short" })}
                         </span>
                       </div>
                     </div>
 
                     {/* Barber & Items Summary */}
-                    <div className="p-2.5 bg-[#181614] border border-[#38332c] rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                    <div className="p-2.5 bg-[#F6F5F2] border border-[#E8E5DE] rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                       <div className="flex items-center gap-2">
-                        <Scissors className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                        <span className="text-stone-400">Barber:</span>
-                        <span className="font-medium text-stone-200">
+                        <Scissors className="w-3.5 h-3.5 text-[#D97706] shrink-0" />
+                        <span className="text-[#706E68]">Barber:</span>
+                        <span className="font-medium text-[#1A1A1A]">
                           {ticket.assignedBarber?.user?.name ||
                             ticket.requestedBarber?.user?.name ||
                             "Siapa Saja (Antrean Bebas)"}
                         </span>
                       </div>
 
-                      <div className="text-stone-400 truncate max-w-xs">
+                      <div className="text-[#706E68] truncate max-w-xs">
                         {ticket.items.map((i) => i.itemName).join(", ")}
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-end gap-2 pt-1 border-t border-[#2c2823]">
+                    <div className="flex items-center justify-end gap-2 pt-1 border-t border-[#E8E5DE]">
                       {!isPaid && !isCancelled && (
                         <button
                           type="button"
                           onClick={() => handleOpenPayment(ticket)}
-                          className="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition"
+                          className="px-3.5 py-1.5 rounded-full bg-[#111111] hover:bg-black text-white font-bold text-xs flex items-center gap-1.5 shadow-2xs transition cursor-pointer"
                         >
                           <Banknote className="w-3.5 h-3.5" />
                           <span>Pelunasan Kasir</span>
@@ -415,7 +415,7 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
                         <button
                           type="button"
                           onClick={() => handleCancelTicket(ticket.id)}
-                          className="px-2.5 py-1.5 rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-950/20 text-xs font-medium transition"
+                          className="px-2.5 py-1.5 rounded-full text-[#706E68] hover:text-[#D93025] hover:bg-[#FDF0F2] text-xs font-medium transition cursor-pointer"
                         >
                           Batalkan
                         </button>
@@ -430,16 +430,16 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
 
         {/* KOLOM KANAN: FORM TRANSAKSI DESKTOP (EMBEDDED) */}
         <div className="hidden lg:block lg:col-span-5 sticky top-6">
-          <div className="p-5 bg-[#221f1b] border border-[#38332c] rounded-3xl shadow-xl space-y-4">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-[#38332c]">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
+          <div className="p-5 bg-white border border-[#E8E5DE] rounded-[24px] shadow-[0_1px_3px_rgba(28,25,23,0.02)] space-y-4">
+            <div className="flex items-center gap-2.5 pb-2 border-b border-[#E8E5DE]">
+              <div className="w-8 h-8 rounded-xl bg-[#FFF5EB] border border-[#FDE6D2] flex items-center justify-center text-[#D97706]">
                 <Plus className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-stone-100">
+                <h3 className="text-base font-bold text-[#1A1A1A]">
                   Buat Tiket Baru
                 </h3>
-                <p className="text-[11px] text-stone-400">
+                <p className="text-[11px] text-[#706E68]">
                   Transaksi kasir cepat & pendaftaran antrean
                 </p>
               </div>
@@ -463,7 +463,7 @@ export const PosDashboardView: React.FC<PosDashboardViewProps> = ({
         <button
           type="button"
           onClick={() => setIsSheetOpen(true)}
-          className="h-14 px-6 rounded-full bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white font-bold text-sm shadow-2xl shadow-amber-950/90 flex items-center gap-2 border border-amber-400/30 transition transform hover:scale-105"
+          className="h-14 px-6 rounded-full bg-[#111111] hover:bg-black text-white font-bold text-sm shadow-xl flex items-center gap-2 border border-black/10 transition transform active:scale-95 cursor-pointer"
         >
           <Plus className="w-5 h-5 stroke-[3]" />
           <span>Buat Tiket / Beli Produk</span>
