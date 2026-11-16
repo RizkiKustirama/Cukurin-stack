@@ -14,6 +14,8 @@ import {
   Plus,
   Sparkles,
   Store,
+  Package,
+  Wrench,
 } from "lucide-react";
 
 export interface TenantSidebarProps {
@@ -149,6 +151,27 @@ export function TenantSidebar({
               <span>Buku Kas & Laci</span>
             </Link>
           )}
+
+          {/* Inventori & Aset */}
+          <div className="pt-4 px-3 pb-1 text-[11px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">
+            Inventori & Aset
+          </div>
+
+          <Link
+            href={`/${storeSlug}/inventory`}
+            className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[var(--foreground-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground)] transition-all"
+          >
+            <Package className="w-4 h-4 text-amber-400" />
+            <span>Stok & Backbar</span>
+          </Link>
+
+          <Link
+            href={`/${storeSlug}/assets`}
+            className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[var(--foreground-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground)] transition-all"
+          >
+            <Wrench className="w-4 h-4 text-cyan-400" />
+            <span>Pelacak Aset Alat</span>
+          </Link>
 
           <div className="pt-4 px-3 pb-1 text-[11px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">
             Layar Publik & Staf
