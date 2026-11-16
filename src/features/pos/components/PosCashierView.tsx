@@ -45,9 +45,9 @@ import { QuickTicketSheet, type MasterService, type MasterProduct, type MasterBa
 import { PaymentModal, type TicketToPay } from "./PaymentModal";
 import { CashRegisterView } from "@/features/cash-register/components/CashRegisterView";
 import { BarberPayoutModal } from "@/features/payroll/components/BarberPayoutModal";
-import type { ChairData } from "@/features/queue/components/ActiveChairsGrid";
-import type { QueueItemData } from "@/features/queue/components/QueueListView";
-import type { BarberStatusItem } from "./BarberStatusCarousel";
+import { ActiveChairsGrid, type ChairData } from "@/features/queue/components/ActiveChairsGrid";
+import { QueueListView, type QueueItemData } from "@/features/queue/components/QueueListView";
+import { BarberStatusCarousel, type BarberStatusItem } from "./BarberStatusCarousel";
 import type {
   DailyRegisterSummary,
   StoreVaultInfo,
@@ -420,6 +420,36 @@ export function PosCashierView({
     }
   };
 
+  const headerInfo = useMemo(() => {
+    switch (currentTab) {
+      case "queue":
+        return {
+          title: "Antrean Masuk & Stasiun Meja Barber",
+          subtitle: `Cabang ${storeName} • Monitoring alur antrean dan kursi potong rambut aktif`,
+          badge: `${queue.length} Antrean Menunggu`,
+          badgeColor: "bg-[#FEF3EB] text-[#D97706] border border-[#FDE6D2]",
+        };
+      case "cash":
+        return {
+          title: "Buku Kas Harian & Laci Kasir",
+          subtitle: `Cabang ${storeName} • Manajemen brankas toko, kas kecil (petty cash), dan rekonsiliasi kasir`,
+          badge: drawer.status === "OPEN" ? "Laci Kasir Buka" : "Laci Kasir Tutup",
+          badgeColor:
+            drawer.status === "OPEN"
+              ? "bg-[#E8F7EE] text-[#1E8E3E] border border-[#CEEAD6]"
+              : "bg-[#FDF0F2] text-[#D93025] border border-[#FCDAD7]",
+        };
+      case "pos":
+      default:
+        return {
+          title: "Kasir POS & Transaksi Pembayaran",
+          subtitle: `Cabang ${storeName} • Katalog menu jasa, produk retail, dan checkout kasir terintegrasi`,
+          badge: "Shift Kasir Aktif",
+          badgeColor: "bg-[#E8F7EE] text-[#1E8E3E] border border-[#CEEAD6]",
+        };
+    }
+  }, [currentTab, storeName, queue.length, drawer.status]);
+
   return (
     <TenantResponsiveShell
       storeSlug={storeSlug}
@@ -439,23 +469,23 @@ export function PosCashierView({
           </div>
         )}
 
-        {/* 1. Operational Sub-Header (Screen 2 Desktop Style) */}
+        {/* 1. Operational Sub-Header (Tab-Aware Header Banner) */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#E8E5DE]/80">
           <div className="flex items-center gap-4 flex-wrap">
             <div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-[#1A1A1A] tracking-tight">
-                Kasir &amp; Antrean Operasional
+                {headerInfo.title}
               </h1>
               <p className="text-xs text-[#706E68] mt-0.5">
-                Cabang {storeName} • Terhubung ke Cloud Sync
+                {headerInfo.subtitle}
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFECE6] text-[#706E68] text-xs">
-              <span className="w-2 h-2 rounded-full bg-[#1E8E3E] animate-pulse"></span>
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold ${headerInfo.badgeColor}`}>
+              <span className="w-2 h-2 rounded-full bg-current animate-pulse"></span>
               <span>
-                Shift Aktif • Kasir:{" "}
-                <strong className="text-[#1A1A1A] font-semibold">{user.name}</strong>
+                {headerInfo.badge} • Kasir:{" "}
+                <strong className="text-[#1A1A1A]">{user.name}</strong>
               </span>
             </div>
           </div>
@@ -485,8 +515,85 @@ export function PosCashierView({
         </div>
 
         {/* 2. Main Viewport Content */}
-        {currentTab === "cash" ? (
-          /* Tampilan Buku Kas & Brankas Toko */
+        {currentTab === "queue" ? (
+          /* ========================================================================= */
+          /* TAB 1: Antrean Masuk & Meja Stasiun (Dedicated Queue Engine Board)        */
+          /* ========================================================================= */
+          <div className="space-y-6">
+            {/* 1. Barber Status Swipeable Carousel */}
+            <BarberStatusCarousel
+              barbers={barbers}
+              onStatusChange={handleBarberStatusChange}
+            />
+
+            {/* 2. Active Chairs Grid (Live Barbershop Chairs with Timers) */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#E8E5DE] shadow-xs space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="p-2 rounded-xl bg-[#FFF5EB] text-[#D97706]">
+                    <Armchair className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <h2 className="text-base font-bold text-[#1A1A1A]">
+                      Kursi Stasiun Meja Barber Aktif
+                    </h2>
+                    <p className="text-xs text-[#706E68]">
+                      Pantau durasi pengerjaan cukur tiap meja dan pelanggan yang sedang dilayani
+                    </p>
+                  </div>
+                </div>
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#E8F7EE] text-[#1E8E3E]">
+                  {stationStats.active} Meja Sedang Cukur
+                </span>
+              </div>
+
+              <ActiveChairsGrid
+                chairs={chairs}
+                onCompleteService={handleCompleteService}
+                onCallNext={(barberId: string) => handleCallNext(barberId)}
+                onCheckoutTicket={handleOpenPaymentForTicket}
+              />
+            </div>
+
+            {/* 3. Queue List View (Live Customers Queue) */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#E8E5DE] shadow-xs space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="p-2 rounded-xl bg-[#EEF6FE] text-[#1A73E8]">
+                    <Users className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <h2 className="text-base font-bold text-[#1A1A1A]">
+                      Daftar Antrean Masuk Pelanggan
+                    </h2>
+                    <p className="text-xs text-[#706E68]">
+                      Urutan pelanggan walk-in &amp; booking yang sedang menunggu giliran potong rambut
+                    </p>
+                  </div>
+                </div>
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#EFECE6] text-[#706E68]">
+                  Total {queue.length} Menunggu
+                </span>
+              </div>
+
+              <QueueListView
+                queueItems={queue}
+                onAssignBarber={(ticketId: string) => {
+                  const ready = barbers.find((b) => b.workStatus === BarberWorkStatus.READY);
+                  if (ready) {
+                    handleCallNext(ready.id, ticketId);
+                  } else {
+                    showToast("Semua barber sedang sibuk/istirahat.");
+                  }
+                }}
+                onPayTicket={handleOpenPaymentForTicket}
+              />
+            </div>
+          </div>
+        ) : currentTab === "cash" ? (
+          /* ========================================================================= */
+          /* TAB 2: Tampilan Buku Kas Harian & Brankas Toko                           */
+          /* ========================================================================= */
           <CashRegisterView
             storeVault={storeVault || { storeId: "", storeName, vaultBalance: 0 }}
             activeSummary={activeSummary || null}
@@ -495,7 +602,9 @@ export function PosCashierView({
             onOpenPayoutModal={() => setIsPayoutModalOpen(true)}
           />
         ) : (
-          /* Screen 2: 3-Column Split View Architecture (Desktop) */
+          /* ========================================================================= */
+          /* TAB 3: Kasir POS Terintegrasi (Screen 2 Desktop Architecture)            */
+          /* ========================================================================= */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             {/* ========================================================================= */}
             {/* COLUMN 1: Smart Queue & Antrean Live (Left, col-span-3)                    */}
